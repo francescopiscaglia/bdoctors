@@ -14,6 +14,4 @@ router.post("/", doctorsController.DocCreate);
 // create => creo un nuova recensione
 router.post("/review/:doctor_id", doctorsController.RevCreate);
 
-
-
 module.exports = router;
