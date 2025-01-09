@@ -12,7 +12,11 @@ router.get("/:id", doctorsController.show);
 
 // create
 // creo un nuovo medico
-router.post("/", doctorsController.create);
+router.post("/", doctorsController.DocCreate);
+
+// create
+// creo un nuova recensione
+router.post("/", doctorsController.RevCreate);
 
 
 
