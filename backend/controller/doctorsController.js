@@ -10,10 +10,9 @@ const index = (req, res) => {
         if (err) {
             console.log(err);
             res.status(500).send("Error retrieving doctors from database");
-        }
+        };
 
         res.status(200).json(result);
-
     });
 };
 
@@ -22,7 +21,6 @@ const index = (req, res) => {
 const show = (req, res) => {
 
     const { id } = req.params;
-
     const DocSql = `SELECT * FROM doctors WHERE id = ?`;
     const RevSql = `SELECT * FROM reviews WHERE doctor_id = ?`;
 
@@ -50,7 +48,6 @@ const show = (req, res) => {
                 reviews: result,
             });
         });
-
     });
 };
 
@@ -74,6 +71,7 @@ const DocCreate = (req, res) => {
             return res.status(500).send("Error creating doctor");
         };
 
+        // creare un nuovo oggetto con i dati del nuovo dottore
         const newDoc = {
             name,
             last_name,
@@ -88,9 +86,7 @@ const DocCreate = (req, res) => {
             message: "Doctor created successfully",
             doctor: newDoc
         });
-
     });
-
 };
 
 
@@ -115,6 +111,7 @@ const RevCreate = (req, res) => {
             return res.status(500).send("Error creating review");
         };
 
+        // creare un nuovo oggetto con i dati della nuova recensione
         const newRev = {
             doctor_id,
             username,
@@ -126,7 +123,6 @@ const RevCreate = (req, res) => {
             message: "Review created successfully",
             doctor: newRev
         });
-
     });
 };
 
@@ -136,4 +132,4 @@ module.exports = {
     show,
     DocCreate,
     RevCreate,
-}
+};
