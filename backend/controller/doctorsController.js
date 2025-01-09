@@ -56,7 +56,7 @@ const show = (req, res) => {
 
 const DocCreate = (req, res) => {
 
-    // recuperare i date dal body
+    // recuperare i dati dal body
     const { name, last_name, department, email, phone_number, address, description } = req.body;
 
     if (!name || !last_name || !department || !email || !phone_number || !address || !description) {
@@ -79,8 +79,7 @@ const DocCreate = (req, res) => {
             email,
             phone_number,
             address,
-            description,
-            id: result.insertId,
+            description
         };
 
         res.status(201).json({
@@ -93,7 +92,38 @@ const DocCreate = (req, res) => {
 };
 
 const RevCreate = (req, res) => {
-    res.send("Hello World!");
+
+    // recuperare i dati dal body
+    const { username, rating, review_text } = req.body;
+    const { doctor_id } = req.params;
+
+
+    if (!username || !rating || !review_text) {
+        return res.status(400).send("Missing required fields");
+    };
+
+    // eseguire la query
+    const sql = `INSERT INTO reviews (doctor_id, username, rating, review_text) VALUES (?, ?, ?, ?)`;
+
+    DBConnection.query(sql, [doctor_id, username, rating, review_text], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("Error creating review");
+        };
+
+        const newRev = {
+            doctor_id,
+            username,
+            rating,
+            review_text
+        };
+
+        res.status(201).json({
+            message: "Review created successfully",
+            doctor: newRev
+        });
+
+    });
 };
 
 
