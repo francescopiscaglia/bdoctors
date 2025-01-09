@@ -24,7 +24,7 @@ const show = (req, res) => {
     const { id } = req.params;
 
     const DocSql = `SELECT * FROM doctors WHERE id = ?`;
-    const RevSql = `SELECT * FROM reviews JOIN doctors ON doctors.id = reviews.doctor_id WHERE doctor_id = ?`;
+    const RevSql = `SELECT * FROM reviews WHERE doctor_id = ?`;
 
     // eseguire la query sul database
     DBConnection.query(DocSql, [id], (err, result) => {
@@ -55,7 +55,41 @@ const show = (req, res) => {
 };
 
 const DocCreate = (req, res) => {
-    res.send("Hello World!");
+
+    // recuperare i date dal body
+    const { name, last_name, department, email, phone_number, address, description } = req.body;
+
+    if (!name || !last_name || !department || !email || !phone_number || !address || !description) {
+        return res.status(400).send("Missing required fields");
+    };
+
+    // eseguire la query
+    const sql = `INSERT INTO doctors (name, last_name, department, email, phone_number, address, description) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+    DBConnection.query(sql, [name, last_name, department, email, phone_number, address, description], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("Error creating doctor");
+        };
+
+        const newDoc = {
+            name,
+            last_name,
+            department,
+            email,
+            phone_number,
+            address,
+            description,
+            id: result.insertId,
+        };
+
+        res.status(201).json({
+            message: "Doctor created successfully",
+            doctor: newDoc
+        });
+
+    });
+
 };
 
 const RevCreate = (req, res) => {
