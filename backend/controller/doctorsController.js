@@ -10,9 +10,10 @@ const index = (req, res) => {
         if (err) {
             console.log(err);
             res.status(500).send("Error retrieving doctors from database");
-        } else {
-            res.status(200).json(result);
         }
+
+        res.status(200).json(result);
+
     });
 };
 
@@ -29,9 +30,10 @@ const show = (req, res) => {
     DBConnection.query(DocSql, [id], (err, result) => {
         if (err) {
             console.log(err);
-            res.status(500).send("Error retrieving doctor from database");
+            return res.status(500).send("Error retrieving doctor from database");
+
         } else if (result.length === 0) {
-            res.status(404).send("Doctor not found");
+            return res.status(404).send("Doctor not found");
         };
 
         const doctor = result[0];
@@ -40,13 +42,13 @@ const show = (req, res) => {
         DBConnection.query(RevSql, [id], (err, result) => {
             if (err) {
                 console.log(err);
-                res.status(500).send("Error retrieving reviews from database");
-            } else {
-                res.status(200).json({
-                    doctor,
-                    reviews: result,
-                });
+                return res.status(500).send("Error retrieving reviews from database");
             }
+
+            res.status(200).json({
+                doctor,
+                reviews: result,
+            });
         });
 
     });
