@@ -15,6 +15,6 @@
 - id | integer | not null | primary key
 - doctor_id | integer | not null | foreign key (references doctors(id))
 - username | varchar(50) | not null
-- rating | integer | not null
-- review_text | text | not null
+- rating | TinyInt | not null
+- review_text | text(500) | null
 - created_at | datetime | not null
