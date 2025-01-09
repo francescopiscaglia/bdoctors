@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const DBConnection = require("./db/connection.js");
+const DoctorRouter = require("./routes/doctorsRouter.js");
 
 const PORT = process.env.PORT;
 const LOCALHOST = process.env.LOCALHOST;
@@ -13,7 +13,5 @@ app.listen(PORT, () => {
     console.log(`Server is running at ${LOCALHOST}:${PORT}`);
 });
 
-// index
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-});
+// router
+app.use("/api/doctors", DoctorRouter);
