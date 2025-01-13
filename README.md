@@ -9,6 +9,12 @@
 - phone_number | Varchar(20) | not null
 - address | Varchar(255) | not null
 - description | text(250) | null
+- cv | Blob | not null
+
+# Department table
+- id | integer | not null | primary key
+- doctor_id | integer | not null | foreign key (references doctors(id))
+- department_name | Varchar(100) | not null
 
 
 # Reviews table
@@ -19,12 +25,3 @@
 - review_text | text(500) | null
 - created_at | datetime | not null
 
-
-# CV table
-- id | integer | not null | primary key
-- doctor_id | integer | not null | foreign key (references doctors(id))
-- education | text(500) | not null
-- experience | text(500) | not null
-- certifications | text(500) | not null
-- awards | text(500) | null
-- publications | text(500) | null
