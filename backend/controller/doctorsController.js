@@ -100,7 +100,7 @@ const DocCreate = async (req, res) => {
         });
     });
 
-    if (emailExist) return res.status(400).json({ error: "Email is already exists in the system" });
+    if (emailExist) return res.status(400).json({ error: "Email already exists in the system" });
 
     // eseguire la query
     const sql = `INSERT INTO doctors (name, last_name, department, email, phone_number, address, description) VALUES (?, ?, ?, ?, ?, ?, ?)`;
