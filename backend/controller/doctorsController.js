@@ -29,7 +29,6 @@ const show = (req, res) => {
     const { id } = req.params;
     const DocSql = `SELECT * FROM doctors WHERE id = ?`;
     const RevSql = `SELECT * FROM reviews WHERE doctor_id = ?`;
-    const CVSql = `SELECT * FROM cv WHERE doctor_id = ?`;
 
     if (!id) return res.status(500).json({ error: "Please insert id" });
 
@@ -45,32 +44,17 @@ const show = (req, res) => {
 
         const doctor = result[0];
 
-        // eseguire la query per il cv
-        DBConnection.query(CVSql, [id], (err, result) => {
+        // eseguire la query sul database
+        DBConnection.query(RevSql, [id], (err, result) => {
             if (err) {
                 console.log(err);
-                return res.status(500).json({ error: "Error retrieving cv from database" });
+                return res.status(500).json({ error: "Error retrieving reviews from database" });
+            }
 
-            } else if (result.length === 0) {
-                return res.status(404).json({ error: "CV not found" });
-            };
-
-            const cv = result[0];
-
-            // eseguire la query sul database
-            DBConnection.query(RevSql, [id], (err, result) => {
-                if (err) {
-                    console.log(err);
-                    return res.status(500).json({ error: "Error retrieving reviews from database" });
-                }
-
-                res.status(200).json({
-                    doctor,
-                    cv,
-                    reviews: result,
-                });
+            res.status(200).json({
+                doctor,
+                reviews: result,
             });
-
         });
     });
 };
@@ -80,10 +64,10 @@ const show = (req, res) => {
 const DocCreate = async (req, res) => {
 
     // recuperare i dati dal body
-    const { name, last_name, department, email, phone_number, address, description } = req.body;
+    const { name, last_name, department, email, phone_number, address, description, cv } = req.body;
 
     // se uno dei campi é vuoto
-    if (!name || !last_name || !department || !email || !phone_number || !address || !description) {
+    if (!name || !last_name || !department || !email || !phone_number || !address || !description || !cv) {
         return res.status(400).json({ error: "Please insert all information" });
     };
 
