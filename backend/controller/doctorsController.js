@@ -29,6 +29,7 @@ const show = (req, res) => {
     const { id } = req.params;
     const DocSql = `SELECT * FROM doctors WHERE id = ?`;
     const RevSql = `SELECT * FROM reviews WHERE doctor_id = ?`;
+    const CVSql = `SELECT * FROM cv WHERE doctor_id = ?`;
 
     if (!id) return res.status(500).json({ error: "Please insert id" });
 
@@ -44,17 +45,32 @@ const show = (req, res) => {
 
         const doctor = result[0];
 
-        // eseguire la query sul database
-        DBConnection.query(RevSql, [id], (err, result) => {
+        // eseguire la query per il cv
+        DBConnection.query(CVSql, [id], (err, result) => {
             if (err) {
                 console.log(err);
-                return res.status(500).json({ error: "Error retrieving doctors from database" });
-            }
+                return res.status(500).json({ error: "Error retrieving cv from database" });
 
-            res.status(200).json({
-                doctor,
-                reviews: result,
+            } else if (result.length === 0) {
+                return res.status(404).json({ error: "CV not found" });
+            };
+
+            const cv = result[0];
+
+            // eseguire la query sul database
+            DBConnection.query(RevSql, [id], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: "Error retrieving reviews from database" });
+                }
+
+                res.status(200).json({
+                    doctor,
+                    cv,
+                    reviews: result,
+                });
             });
+
         });
     });
 };
