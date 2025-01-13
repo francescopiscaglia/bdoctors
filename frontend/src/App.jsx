@@ -1,12 +1,15 @@
 
 import './App.css'
-import AppHeader from './Components/AppHeader'
+import DefaultLayout from './Layout/DefaultLayout'
+
 
 function App() {
-    <>
-        <AppHeader />
+    return (
+        <>
+            <DefaultLayout />
+        </>
+    )
 
-    </>
 }
 
 export default App
