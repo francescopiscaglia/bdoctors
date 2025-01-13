@@ -3,12 +3,16 @@ const app = express();
 const DoctorRouter = require("./routes/doctorsRouter.js");
 const handler404 = require('./middlewares/error404.js');
 const handler500 = require('./middlewares/error500.js');
+const cors = require('cors');
 
 const PORT = process.env.PORT;
 const LOCALHOST = process.env.LOCALHOST;
 
 // body parse middleware
 app.use(express.json());
+
+// cors
+app.use(cors());
 
 // start the server
 app.listen(PORT, () => {
