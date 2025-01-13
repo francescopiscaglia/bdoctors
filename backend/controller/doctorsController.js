@@ -1,4 +1,5 @@
 const DBConnection = require("../db/connection.js");
+const path = require("path");
 const emailValidator = require("../utils/emailValidator.js");
 const phoneValidator = require("../utils/phoneValidator.js");
 const nameValidator = require("../utils/nameValidator.js");
@@ -64,7 +65,8 @@ const show = (req, res) => {
 const DocCreate = async (req, res) => {
 
     // recuperare i dati dal body
-    const { name, last_name, department, email, phone_number, address, description, cv } = req.body;
+    const { name, last_name, department, email, phone_number, address, description, } = req.body;
+    const cv = req.file.path;
 
     // se uno dei campi é vuoto
     if (!name || !last_name || !department || !email || !phone_number || !address || !description || !cv) {
@@ -103,9 +105,9 @@ const DocCreate = async (req, res) => {
     if (emailExist) return res.status(400).json({ error: "Email already exists in the system" });
 
     // eseguire la query
-    const sql = `INSERT INTO doctors (name, last_name, department, email, phone_number, address, description) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO doctors (name, last_name, department, email, phone_number, address, description, cv) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    DBConnection.query(sql, [name, last_name, department, email, phone_number, address, description], (err, result) => {
+    DBConnection.query(sql, [name, last_name, department, email, phone_number, address, description, cv], (err, result) => {
         if (err) {
             console.log(err);
             return res.status(500).send("Error creating doctor");
