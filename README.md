@@ -18,3 +18,13 @@
 - rating | TinyInt | not null
 - review_text | text(500) | null
 - created_at | datetime | not null
+
+
+# CV table
+- id | integer | not null | primary key
+- doctor_id | integer | not null | foreign key (references doctors(id))
+- education | text(500) | not null
+- experience | text(500) | not null
+- certifications | text(500) | not null
+- awards | text(500) | null
+- publications | text(500) | null
