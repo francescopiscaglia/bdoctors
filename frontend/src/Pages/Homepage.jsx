@@ -31,7 +31,7 @@ export default function Homepage() {
                                         <p>{doctor.department}</p>
                                         <p>{doctor.email}</p>
                                         <p>{doctor.phone_number}</p>
-                                        <p>{doctor.addres}</p>
+                                        <p>{doctor.address}</p>
                                         <p>{doctor.description}</p>
                                         <p>{doctor.cv}</p>
                                     </div>
