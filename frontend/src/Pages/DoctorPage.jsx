@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export default function DoctorPage() {
-    const [doctorDetails, setDoctorDetails] = useState(null);
+    const [doctorDetails, setDoctorDetails] = useState(null); // variabile dettagli dottore
+    const [doctorReviews, setDoctorReviews] = useState([]); // variabile array di recensioni
     const { id } = useParams();
 
     // chiamata per doctor.id
@@ -10,8 +11,10 @@ export default function DoctorPage() {
         fetch(`http://localhost:3008/api/doctors/${id}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                console.log(data.doctor);
+                console.log(data.reviews);
                 setDoctorDetails(data.doctor);
+                setDoctorReviews(data.reviews);
             })
             .catch(error => {
                 console.error(error, `Error fetching doctor's data`);
@@ -29,15 +32,44 @@ export default function DoctorPage() {
 
     return (
         <>
-            <p>
-                pagina dettagli dottore
-            </p>
-            <p>
-                {doctorDetails.name}
-            </p>
-            <p>
-                pagina dettagli dottore
-            </p>
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        
+                        {/* dettagli dottore */}
+                        <div className="card p-3 my-3">
+                            <h3>{doctorDetails.name} {doctorDetails.last_name}</h3>
+                            <p><strong>Specialized in: </strong>{doctorDetails.department}</p>
+                            <p><strong>E-mail address: </strong>{doctorDetails.email}</p>
+                            <p><strong>Phone number: </strong>{doctorDetails.phone_number}</p>
+                            <p><strong>Address: </strong>{doctorDetails.address}</p>
+                            <p><strong>Description: </strong>{doctorDetails.description}</p>
+                        </div>
+
+                        {/* dettagli cv */}
+                        <h3>My Curriculum Vitae:</h3>
+                        
+                        {/* studiare come mettere la preview */}
+                        {doctorDetails.cv}
+
+                        {/* dettagli recensioni */}
+                        <h3>My patients' reviews:</h3>
+                        {doctorReviews.map(review => (
+                            <div className="card p-3 my-3" key={review.id}>
+                                <p>
+                                    <strong>User: </strong>{review.username}
+                                </p>
+                                <p>
+                                    <strong>Rating: </strong>{review.rating}
+                                </p>
+                                <p>
+                                    <strong>Comment: </strong>{review.review_text}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
         </>
     )
 }
