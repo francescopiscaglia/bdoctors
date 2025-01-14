@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export default function DoctorPage() {
-    const [doctorDetails, setDoctorDetails] = useState(null); // variabile dettagli dottore
-    const [doctorReviews, setDoctorReviews] = useState([]); // variabile array di recensioni
+    const [doctorDetails, setDoctorDetails] = useState(null); // variables for doctor's details
+    const [doctorReviews, setDoctorReviews] = useState([]); // variables for reviews
     const { id } = useParams();
 
     // chiamata per doctor.id
@@ -30,13 +30,16 @@ export default function DoctorPage() {
         return <p>Loading...</p>;
     }
 
+    // cv static link
+    const cvUrl = `http://localhost:3008/uploads/${doctorDetails.cv}`; // works with link hardcoded to the crash course file
+
     return (
         <>
             <div className="container">
                 <div className="row">
                     <div className="col">
-                        
-                        {/* dettagli dottore */}
+
+                        {/* doctor's details */}
                         <div className="card p-3 my-3">
                             <h3>{doctorDetails.name} {doctorDetails.last_name}</h3>
                             <p><strong>Specialized in: </strong>{doctorDetails.department}</p>
@@ -46,13 +49,14 @@ export default function DoctorPage() {
                             <p><strong>Description: </strong>{doctorDetails.description}</p>
                         </div>
 
-                        {/* dettagli cv */}
-                        <h3>My Curriculum Vitae:</h3>
-                        
-                        {/* studiare come mettere la preview */}
-                        {doctorDetails.cv}
+                        {/* cv preview */}
+                        <div className="card p-3 my-3">
+                            <h3>My Curriculum Vitae:</h3>
+                            <embed src={cvUrl}
+                            type="application/pdf" />
+                        </div>
 
-                        {/* dettagli recensioni */}
+                        {/* reviews */}
                         <h3>My patients' reviews:</h3>
                         {doctorReviews.map(review => (
                             <div className="card p-3 my-3" key={review.id}>
@@ -60,7 +64,7 @@ export default function DoctorPage() {
                                     <strong>User: </strong>{review.username}
                                 </p>
                                 <p>
-                                    <strong>Rating: </strong>{review.rating}
+                                    <strong>Rating: </strong>{review.rating}/5
                                 </p>
                                 <p>
                                     <strong>Comment: </strong>{review.review_text}
