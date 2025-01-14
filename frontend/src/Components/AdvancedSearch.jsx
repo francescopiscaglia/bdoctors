@@ -8,6 +8,7 @@ export default function AdvancedResearch() {
     const [departments, setDepartments] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState("");
     const [filteredDoctors, setFilteredDoctors] = useState([]);
+    const [searchName, setSearchName] = useState("");
 
     // fetch
     const fetchData = async () => {
@@ -29,25 +30,38 @@ export default function AdvancedResearch() {
         fetchData();
     }, []);
 
+    // form handle
     function handleFormSubmit(e) {
         e.preventDefault();
 
-        if (selectedDepartment) {
-            const doctorsSearch = data.filter(doctor => doctor.department === selectedDepartment);
-            setFilteredDoctors(doctorsSearch);
-        } else {
-            setFilteredDoctors([]);
-        };
+        applyFilters(selectedDepartment, searchName);
     };
 
+    // department handle
     function handleDepartmentChange(e) {
         setSelectedDepartment(e.target.value);
+    };
+
+    // name handle
+    function handleNameChange(e) {
+        setSearchName(e.target.value);
+    };
+
+    function applyFilters(department, name) {
+        const filtered = data.filter((doctor) => {
+            const matchesDepartment = department ? doctor.department === department : true;
+            const matchesName = name ? doctor.name.toLowerCase().includes(name.toLowerCase()) : true;
+            return matchesDepartment && matchesName;
+        });
+        setFilteredDoctors(filtered);
     };
 
     return (
         <>
             <div className="container">
                 <form className="row g-3 needs-validation mt-3" onSubmit={handleFormSubmit}>
+
+                    {/* Select */}
                     <div className="col-md-3">
                         <label htmlFor="department" className="form-label">Department</label>
                         <select
@@ -71,6 +85,20 @@ export default function AdvancedResearch() {
                             }
                         </select>
 
+                    </div>
+
+                    {/* Search bar */}
+                    <div className="col mb-3">
+                        <label htmlFor="exampleInputName" className="form-label">Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="exampleInputName"
+                            aria-describedby="nameHelp"
+                            placeholder="Type doctor name"
+                            value={searchName}
+                            onChange={handleNameChange}
+                        />
                     </div>
 
                     <button type="submit" className="btn btn-sm btn-primary" >Submit</button>
