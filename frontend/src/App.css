@@ -13,12 +13,18 @@ img {
 }
 
 header {
+
     nav {
-        background-color: var(--bdoc-nav-bg);
+        background-color: var(--bdoc-lighter);
+
+        a {
+            color: var(--bdoc-darker);
+            font-size: 0.85rem;
+        }
     }
 
     .logo {
-        width: 75px;
+        width: 100px;
         margin: auto;
     }
 }
