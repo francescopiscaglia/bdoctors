@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import SpecializationFilter from '../Components/SpecializationFilter'
+
 
 export default function Homepage() {
     const [doctors, setDoctors] = useState();
@@ -37,6 +39,8 @@ export default function Homepage() {
                     )}
                 </div>
             </div>
+
+            <SpecializationFilter />
         </>
     );
 }
