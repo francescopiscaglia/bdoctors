@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AddDoctor() {
@@ -6,18 +6,26 @@ export default function AddDoctor() {
     const initialFormData = {
         name: '',
         last_name: '',
-        department: '',
         email: '',
+        department: '',
         phone_number: '',
         address: '',
         description: ''
     };
 
+    const [doctors, setDoctors] = useState([]);
+
     const [formData, setFormData] = useState(initialFormData);
+
+    const [departments, setDepartments] = useState([]);
 
     const [error, setError] = useState(null)
 
+    const [selectedDepartment, setSelectedDepartment] = useState("");
+
     const navigate = useNavigate();
+
+
 
     const apiUrl = 'http://localhost:3008';
 
@@ -33,23 +41,44 @@ export default function AddDoctor() {
             setError('Lastname length must be longer than 5!');
         } else if ((formData.name.length || formData.last_name.length || formData.department.length || formData.email.length || formData.phone_number.length || formData.address.length) === 0) {
             setError('Fields values cannot be empty!');
-        }
+        } else {
 
-        fetch(`${apiUrl}/api/doctors`, {
-            method: 'POST',
-            body: JSON.stringify(formData),
-            headers: { 'Content-type': 'Application/json' }
-        })
-            .then(res => res.json())
-            .then(response => {
-                console.log(response);
-                navigate('/');
+            fetch(`${apiUrl}/api/doctors`, {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: { 'Content-type': 'Application/json' }
             })
-            .catch(err => console.error(err)
-            )
+                .then(res => res.json())
+                .then(response => {
+                    console.log(response.data);
+                    setFormData(response.data)
+                    navigate('/');
+                })
+                .catch(err => console.error(err)
+                )
 
-        setFormData(initialFormData)
+            setFormData(initialFormData)
+        }
     }
+
+    useEffect(() => {
+        fetch(`${apiUrl}/api/doctors`)
+            .then(response => response.json())
+            .then(response => {
+                const allDoctors = response.data || [];
+
+                setDoctors(allDoctors);
+
+                const departmentsList = [
+                    ...new Set(allDoctors.map((doctor) => doctor.department)),
+                ];
+
+                setDepartments(departmentsList);
+            })
+            .catch(err => console.error("Errore nel caricamento dei reparti:", err));
+
+
+    }, []);
 
     function handleFormField(e) {
         setFormData((formData) => ({
@@ -57,6 +86,28 @@ export default function AddDoctor() {
             [e.target.name]: e.target.value
         }))
     }
+
+    /*const handleDepartmentChange = (e) => {
+        const department = e.target.value;
+
+        setSelectedDepartment(department); // aggiorno lo stato del select
+
+        setFormData({
+            ...formData,
+            department: department // aggiorno anche formData
+        });
+    };*/
+
+    const handleDepartmentChange = (e) => {
+        const department = e.target.value;
+
+        const filtered = doctors.filter((doctor) => doctor.department === department);
+        setSelectedDepartment(filtered);
+
+    };
+
+    console.log(departments);
+
 
     return (
         <>
@@ -95,28 +146,25 @@ export default function AddDoctor() {
 
                     </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="department" className="form-label">Department*</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="department"
+                    {<div className="mb-3">
+                        <label htmlFor="department" className="form-label">
+                            Select a Department:
+                        </label>
+                        <select
                             id="department"
-                            aria-describedby="helpId"
-                            placeholder="Insert your department"
+                            value={selectedDepartment}
+                            onChange={handleDepartmentChange}
+                            className="form-select"
                             required
-                            value={formData.department}
-                            onChange={handleFormField}
-                        />
-
-                    </div>
-
-                    {/*<select className="form-select" aria-label="Default select example">
-                    <option selected>Department*</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>*/}
+                        >
+                            <option value="">-- No Filter --</option>
+                            {departments.map((department, index) => (
+                                <option key={index} value={department}>
+                                    {department}
+                                </option>
+                            ))}
+                        </select>
+                    </div>}
 
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">Email*</label>
@@ -145,22 +193,6 @@ export default function AddDoctor() {
                             placeholder="Insert your phone number"
                             required
                             value={formData.phone_number}
-                            onChange={handleFormField}
-                        />
-
-                    </div>
-
-                    <div className="mb-3">
-                        <label htmlFor="last_name" className="form-label">Last Name*</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="last_name"
-                            id="last_name"
-                            aria-describedby="helpId"
-                            placeholder="Insert your last name"
-                            required
-                            value={formData.last_name}
                             onChange={handleFormField}
                         />
 
