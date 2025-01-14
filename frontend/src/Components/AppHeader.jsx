@@ -26,13 +26,13 @@ export default function AppHeader() {
 
                                         <div className="right">
                                             <NavLink className='text-decoration-none p-3 m-0' to="/">
-                                                <i class="bi bi-house"></i>
+                                                <i className="bi bi-house"></i>
                                             </NavLink>
                                             <NavLink className='text-decoration-none p-3 m-0' to="/search">
-                                                <i class="bi bi-search"></i>
+                                                <i className="bi bi-search"></i>
                                             </NavLink>
                                             <NavLink className='text-decoration-none p-3 m-0' to="/add">
-                                                <i class="bi bi-plus-circle"></i>
+                                                <i className="bi bi-plus-circle"></i>
                                             </NavLink>
                                         </div>
                                     </div>
