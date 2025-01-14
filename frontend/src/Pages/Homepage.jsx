@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Jumbotron from "../Components/jumbotron";
 
 export default function Homepage() {
     const [doctors, setDoctors] = useState();
@@ -15,6 +16,8 @@ export default function Homepage() {
 
     return (
         <>
+            <Jumbotron />
+
             <div className="container">
                 <div className="row">
                     {doctors ? doctors.map(doctor => (
