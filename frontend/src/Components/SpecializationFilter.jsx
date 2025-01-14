@@ -15,12 +15,12 @@ const DoctorSearch = () => {
       setLoading(true);
 
       try {
-        const response = await axios.get("http://localhost:3307/api/doctors");
+        const response = await axios.get("http://localhost:3008/api/doctors");
         const allDoctors = response.data;
 
         setDoctors(allDoctors);
 
-   
+
         const departmentsList = [
           ...new Set(allDoctors.map((doctor) => doctor.department)),
         ];

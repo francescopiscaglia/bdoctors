@@ -27,7 +27,7 @@ main {
 
     .banner {
         background-color: var(--bdoc-jumbotron-bg);
-        background-image: url("../public/moleco.avif");
+        background-image: url("/moleco.avif");
         background-size: cover;
         background-repeat: no-repeat;
         background-blend-mode: overlay;
