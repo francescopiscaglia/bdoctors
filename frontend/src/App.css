@@ -5,4 +5,53 @@
     --bdoc-text: #090d4d;
     --bdoc-btn: #24be6a;
     --bdoc-footer-bg: #000a6c;
+    --bdoc-nav-bg: #0b114b;
+}
+
+img {
+    max-width: 100%;
+}
+
+header {
+    nav {
+        background-color: var(--bdoc-nav-bg);
+    }
+
+    .logo {
+        width: 150px;
+        margin: auto;
+    }
+}
+
+main {
+
+    .banner {
+        background-color: var(--bdoc-jumbotron-bg);
+        background-image: url("../public/moleco.avif");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-blend-mode: overlay;
+
+        .container-lg {
+            padding: 3rem 0;
+            color: var(--bdoc-text);
+
+            h1 {
+                font-weight: bold;
+            }
+
+            p {
+                font-size: 0.95rem;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+footer {
+    background-color: var(--bdoc-footer-bg);
+
+    span {
+        color: var(--bdoc-btn)
+    }
 }
