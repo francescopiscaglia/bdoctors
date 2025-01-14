@@ -6,3 +6,27 @@
     --bdoc-btn: #24be6a;
     --bdoc-footer-bg: #000a6c;
 }
+
+main {
+    .banner {
+        background-color: var(--bdoc-jumbotron-bg);
+        background-image: url("../public/moleco.avif");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-blend-mode: overlay;
+
+        .container-lg {
+            padding: 2rem 0;
+            color: var(--bdoc-text);
+
+            h1 {
+                font-weight: bold;
+            }
+
+            p {
+                font-size: 0.95rem;
+                font-weight: 600;
+            }
+        }
+    }
+}
