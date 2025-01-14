@@ -8,10 +8,13 @@
     --bdoc-nav-bg: #0b114b;
 }
 
-main {
+header {
     nav {
-        background-color: #0b114b;
+        background-color: var(--bdoc-nav-bg);
     }
+}
+
+main {
 
     .banner {
         background-color: var(--bdoc-jumbotron-bg);
