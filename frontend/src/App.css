@@ -24,7 +24,7 @@ main {
         background-blend-mode: overlay;
 
         .container-lg {
-            padding: 2rem 0;
+            padding: 3rem 0;
             color: var(--bdoc-text);
 
             h1 {
@@ -36,5 +36,13 @@ main {
                 font-weight: 600;
             }
         }
+    }
+}
+
+footer {
+    background-color: var(--bdoc-footer-bg);
+
+    span {
+        color: var(--bdoc-btn)
     }
 }
