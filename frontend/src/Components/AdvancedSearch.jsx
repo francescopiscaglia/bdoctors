@@ -9,6 +9,7 @@ export default function AdvancedResearch() {
     const [selectedDepartment, setSelectedDepartment] = useState("");
     const [filteredDoctors, setFilteredDoctors] = useState([]);
     const [searchName, setSearchName] = useState("");
+    const [searchLastName, setSearchLastName] = useState("");
 
     // fetch
     const fetchData = async () => {
@@ -34,7 +35,7 @@ export default function AdvancedResearch() {
     function handleFormSubmit(e) {
         e.preventDefault();
 
-        applyFilters(selectedDepartment, searchName);
+        applyFilters(selectedDepartment, searchName, searchLastName);
     };
 
     // department handle
@@ -47,11 +48,18 @@ export default function AdvancedResearch() {
         setSearchName(e.target.value);
     };
 
-    function applyFilters(department, name) {
+    // lastname handle
+    function handleLastNameChange(e) {
+        setSearchLastName(e.target.value);
+    };
+
+    // filter
+    function applyFilters(department, name, last_name) {
         const filtered = data.filter((doctor) => {
             const matchesDepartment = department ? doctor.department === department : true;
             const matchesName = name ? doctor.name.toLowerCase().includes(name.toLowerCase()) : true;
-            return matchesDepartment && matchesName;
+            const matchesLastName = last_name ? doctor.last_name.toLowerCase().includes(last_name.toLowerCase()) : true;
+            return matchesDepartment && matchesName && matchesLastName;
         });
         setFilteredDoctors(filtered);
     };
@@ -61,7 +69,7 @@ export default function AdvancedResearch() {
             <div className="container">
                 <form className="row g-3 needs-validation mt-3" onSubmit={handleFormSubmit}>
 
-                    {/* Select */}
+                    {/* select */}
                     <div className="col-md-3">
                         <label htmlFor="department" className="form-label">Department</label>
                         <select
@@ -87,7 +95,7 @@ export default function AdvancedResearch() {
 
                     </div>
 
-                    {/* Search bar */}
+                    {/* name search bar */}
                     <div className="col mb-3">
                         <label htmlFor="exampleInputName" className="form-label">Name</label>
                         <input
@@ -98,6 +106,21 @@ export default function AdvancedResearch() {
                             placeholder="Type doctor name"
                             value={searchName}
                             onChange={handleNameChange}
+                        />
+                    </div>
+
+                    {/* lastname search bar */}
+                    {/* name search bar */}
+                    <div className="col mb-3">
+                        <label htmlFor="exampleInputName" className="form-label">Lastname</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="exampleInputLastName"
+                            aria-describedby="LastNameHelp"
+                            placeholder="Type doctor lastname"
+                            value={searchLastName}
+                            onChange={handleLastNameChange}
                         />
                     </div>
 
