@@ -5,13 +5,14 @@
     --bdoc-text: #090d4d;
     --bdoc-btn: #24be6a;
     --bdoc-footer-bg: #000a6c;
-	--bdoc-nav-bg: #0b114b;
+    --bdoc-nav-bg: #0b114b;
 }
 
-main 
-{
-	nav {
-    	background-color: #0b114b;
+main {
+    nav {
+        background-color: #0b114b;
+    }
+
     .banner {
         background-color: var(--bdoc-jumbotron-bg);
         background-image: url("../public/moleco.avif");
