@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import SpecializationFilter from '../Components/SpecializationFilter'
 import Jumbotron from "../Components/jumbotron";
 import { Link } from "react-router-dom";
+
 
 export default function Homepage() {
     const [doctors, setDoctors] = useState();
@@ -43,6 +45,8 @@ export default function Homepage() {
                     )}
                 </div>
             </div>
+
+            <SpecializationFilter />
         </>
     );
 }
