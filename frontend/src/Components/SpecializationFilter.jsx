@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './SpecializationFilter';
-import { Link } from "react-router-dom";
 
 const DoctorSearch = () => {
   const [doctors, setDoctors] = useState([]);
@@ -80,23 +79,21 @@ const DoctorSearch = () => {
       {loading && <p className="text-center">Caricamento medici...</p>}
 
       {!loading && filteredDoctors.length > 0 && (
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+        <div className="row">
           {filteredDoctors.map((doctor) => (
-            <Link to={`/${doctor.id}`} key={doctor.id} className="text-decoration-none">
-              <div className="col mb-4">
-                <div className="card shadow-sm">
-                  <div className="card-body">
-                    <h5 className="card-title">{doctor.name} {doctor.last_name}</h5>
-                    <p className="card-text">
-                      <strong>Email:</strong> {doctor.email}
-                    </p>
-                    <p className="card-text">
-                      <strong>Department:</strong> {doctor.department}
-                    </p>
-                  </div>
+            <div className="col-md-4 mb-4" key={doctor.id}>
+              <div className="card shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title">{doctor.name} {doctor.last_name}</h5>
+                  <p className="card-text">
+                    <strong>Email:</strong> {doctor.email}
+                  </p>
+                  <p className="card-text">
+                    <strong>Department:</strong> {doctor.department}
+                  </p>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}

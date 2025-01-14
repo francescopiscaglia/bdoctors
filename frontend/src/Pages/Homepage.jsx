@@ -10,7 +10,6 @@ export default function Homepage() {
         fetch('http://localhost:3008/api/doctors')
             .then(res => res.json())
             .then(data => {
-                console.log('data', data)
                 setDoctors(data)
             })
     }, [])
