@@ -67,7 +67,7 @@ export default function AdvancedResearch() {
     return (
         <>
             <div className="container">
-                <form className="row g-3 needs-validation mt-3" onSubmit={handleFormSubmit}>
+                <form className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 needs-validation mt-3" onSubmit={handleFormSubmit}>
 
                     {/* select */}
                     <div className="col-md-3">
@@ -96,7 +96,7 @@ export default function AdvancedResearch() {
                     </div>
 
                     {/* name search bar */}
-                    <div className="col mb-3">
+                    <div className="mb-3">
                         <label htmlFor="exampleInputName" className="form-label">Name</label>
                         <input
                             type="text"
@@ -110,7 +110,6 @@ export default function AdvancedResearch() {
                     </div>
 
                     {/* lastname search bar */}
-                    {/* name search bar */}
                     <div className="col mb-3">
                         <label htmlFor="exampleInputName" className="form-label">Lastname</label>
                         <input
@@ -124,7 +123,12 @@ export default function AdvancedResearch() {
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-sm btn-primary" >Submit</button>
+                    <button
+                        type="submit"
+                        className="btn btn-sm ms-2 submit"
+                        style={{ width: "100px" }}
+                    >
+                        Submit</button>
                 </form>
 
                 <div className="mt-4">

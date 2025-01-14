@@ -52,6 +52,11 @@ main {
             }
         }
     }
+
+    .submit {
+        background-color: var(--bdoc-btn);
+        color: var(--bdoc-text);
+    }
 }
 
 footer {
