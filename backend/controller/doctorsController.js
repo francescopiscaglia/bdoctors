@@ -4,6 +4,7 @@ const emailValidator = require("../utils/emailValidator.js");
 const phoneValidator = require("../utils/phoneValidator.js");
 const nameValidator = require("../utils/nameValidator.js");
 const addressValidator = require("../utils/addressValidator.js");
+const fileValidator = require("../utils/fileValidator.js");
 
 // index
 const index = (req, res) => {
@@ -66,10 +67,10 @@ const DocCreate = async (req, res) => {
 
     // recuperare i dati dal body
     const { name, last_name, department, email, phone_number, address, description, } = req.body;
-    const cv = req.file.path;
+    const cv = req.file ? req.file.path : null;
 
     // se uno dei campi é vuoto
-    if (!name || !last_name || !department || !email || !phone_number || !address || !description || !cv) {
+    if (!name || !last_name || !department || !email || !phone_number || !address || !description) {
         return res.status(400).json({ error: "Please insert all information" });
     };
 

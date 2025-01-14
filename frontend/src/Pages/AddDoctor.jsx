@@ -13,19 +13,13 @@ export default function AddDoctor() {
         description: ''
     };
 
-    const [doctors, setDoctors] = useState([]);
-
+    // hooks
+    const [doctors, setDoctors] = useState("");
     const [formData, setFormData] = useState(initialFormData);
-
     const [departments, setDepartments] = useState([]);
-
     const [error, setError] = useState(null)
-
     const [selectedDepartment, setSelectedDepartment] = useState("");
-
     const navigate = useNavigate();
-
-
 
     const apiUrl = 'http://localhost:3008';
 
@@ -38,24 +32,23 @@ export default function AddDoctor() {
         } else if (formData.last_name.length < 3) {
             setError('Lastname length must be longer than 3!');
         } else if (formData.address.length < 5) {
-            setError('Lastname length must be longer than 5!');
+            setError('Address length must be longer than 5!');
         } else if ((formData.name.length || formData.last_name.length || formData.department.length || formData.email.length || formData.phone_number.length || formData.address.length) === 0) {
             setError('Fields values cannot be empty!');
         } else {
 
             fetch(`${apiUrl}/api/doctors`, {
                 method: 'POST',
+                headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(formData),
-                headers: { 'Content-type': 'Application/json' }
             })
                 .then(res => res.json())
                 .then(response => {
-                    console.log(response.data);
-                    setFormData(response.data)
+                    console.log(response);
+                    setFormData(response)
                     navigate('/');
                 })
-                .catch(err => console.error(err)
-                )
+                .catch(err => console.error(err))
 
             setFormData(initialFormData)
         }
@@ -65,7 +58,7 @@ export default function AddDoctor() {
         fetch(`${apiUrl}/api/doctors`)
             .then(response => response.json())
             .then(response => {
-                const allDoctors = response.data || [];
+                const allDoctors = response || [];
 
                 setDoctors(allDoctors);
 
@@ -76,8 +69,6 @@ export default function AddDoctor() {
                 setDepartments(departmentsList);
             })
             .catch(err => console.error("Errore nel caricamento dei reparti:", err));
-
-
     }, []);
 
     function handleFormField(e) {
@@ -100,20 +91,19 @@ export default function AddDoctor() {
 
     const handleDepartmentChange = (e) => {
         const department = e.target.value;
-
-        const filtered = doctors.filter((doctor) => doctor.department === department);
-        setSelectedDepartment(filtered);
-
+        setSelectedDepartment(department);
+        setFormData({ ...formData, department });
     };
-
-    console.log(departments);
 
 
     return (
         <>
             <div className="container border border-1 rounded py-4 my-5">
 
+
                 <form onSubmit={HandleFormSubmit} className="p-4">
+
+                    {/* name */}
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name*</label>
                         <input
@@ -130,6 +120,7 @@ export default function AddDoctor() {
 
                     </div>
 
+                    {/* lastname */}
                     <div className="mb-3">
                         <label htmlFor="last_name" className="form-label">Lastname*</label>
                         <input
@@ -146,6 +137,7 @@ export default function AddDoctor() {
 
                     </div>
 
+                    {/* department */}
                     {<div className="mb-3">
                         <label htmlFor="department" className="form-label">
                             Select a Department:
