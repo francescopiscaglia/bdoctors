@@ -39,7 +39,7 @@ export default function DoctorPage() {
                 <div className="row">
                     <div className="col">
 
-                        {/* dettagli dottore */}
+                        {/* doctor's details */}
                         <div className="card p-3 my-3">
                             <h3>{doctorDetails.name} {doctorDetails.last_name}</h3>
                             <p><strong>Specialized in: </strong>{doctorDetails.department}</p>
@@ -49,17 +49,14 @@ export default function DoctorPage() {
                             <p><strong>Description: </strong>{doctorDetails.description}</p>
                         </div>
 
-                        {/* dettagli cv */}
+                        {/* cv preview */}
                         <div className="card p-3 my-3">
                             <h3>My Curriculum Vitae:</h3>
                             <embed src={cvUrl}
                             type="application/pdf" />
                         </div>
 
-                        {/* studiare come mettere la preview */}
-                        {doctorDetails.cv}
-
-                        {/* dettagli recensioni */}
+                        {/* reviews */}
                         <h3>My patients' reviews:</h3>
                         {doctorReviews.map(review => (
                             <div className="card p-3 my-3" key={review.id}>
@@ -67,7 +64,7 @@ export default function DoctorPage() {
                                     <strong>User: </strong>{review.username}
                                 </p>
                                 <p>
-                                    <strong>Rating: </strong>{review.rating}
+                                    <strong>Rating: </strong>{review.rating}/5
                                 </p>
                                 <p>
                                     <strong>Comment: </strong>{review.review_text}
