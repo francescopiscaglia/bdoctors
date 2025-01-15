@@ -13,16 +13,12 @@ export default function AddDoctor() {
         description: ''
     };
 
-    const [doctors, setDoctors] = useState([]);
-
+    // hooks
+    const [doctors, setDoctors] = useState("");
     const [formData, setFormData] = useState(initialFormData);
-
     const [departments, setDepartments] = useState([]);
-
     const [error, setError] = useState(null)
-
     const [selectedDepartment, setSelectedDepartment] = useState("");
-
     const navigate = useNavigate();
 
     const apiUrl = 'http://localhost:3008';
@@ -40,6 +36,7 @@ export default function AddDoctor() {
         } else if (formData.last_name.length < 3) {
             setError('Il cognome deve contenere almeno 3 caratteri!');
         } else if (formData.address.length < 5) {
+
             setError('L\'indirizzo deve contenere almeno 5 caratteri!');
         } else if (Object.entries(formData).some(([key, value]) => key !== 'description' && value.trim() === '')) {
             setError('Tutti i campi obbligatori devono essere compilati!');
@@ -47,26 +44,33 @@ export default function AddDoctor() {
             setError('Il numero di telefono non è valido o il simbolo + non è all\'inizio');
         } else if (formData.email.length > 254 || !emailRegex.test(formData.email)) {
             setError('L\'email non è valida');
+
+            setError('Address length must be longer than 5!');
+        } else if ((formData.name.length || formData.last_name.length || formData.department.length || formData.email.length || formData.phone_number.length || formData.address.length) === 0) {
+            setError('Fields values cannot be empty!');
+
         } else {
 
             fetch(`${apiUrl}/api/doctors`, {
                 method: 'POST',
+                headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(formData),
-                headers: { 'Content-type': 'Application/json' }
             })
                 .then(res => res.json())
                 .then(response => {
                     console.log(response);
                     setFormData(response)
+
                     // Verifica se l'email esiste già nel database
                     if (formData.email.exists) {
                         setError('L\'email inserita è già registrata!');
                         return;
                     }
+
+
                     navigate('/');
                 })
-                .catch(err => console.error(err)
-                )
+                .catch(err => console.error(err))
 
             setFormData(initialFormData)
         }
@@ -88,8 +92,6 @@ export default function AddDoctor() {
                 setDepartments(departmentsList);
             })
             .catch(err => console.error("Errore nel caricamento dei reparti:", err));
-
-
     }, []);
 
     function handleFormField(e) {
@@ -102,22 +104,28 @@ export default function AddDoctor() {
     const handleDepartmentChange = (e) => {
         const department = e.target.value;
 
+
         setFormData((formData) => ({
             ...formData,
             department: department
         }));
         setSelectedDepartment(department);
 
-    };
 
-    console.log(departments);
+        setSelectedDepartment(department);
+        setFormData({ ...formData, department });
+
+    };
 
 
     return (
         <>
             <div className="container border border-1 rounded py-4 my-5">
 
+
                 <form onSubmit={HandleFormSubmit} className="p-4">
+
+                    {/* name */}
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name*</label>
                         <input
@@ -134,6 +142,7 @@ export default function AddDoctor() {
 
                     </div>
 
+                    {/* lastname */}
                     <div className="mb-3">
                         <label htmlFor="last_name" className="form-label">Lastname*</label>
                         <input
@@ -150,6 +159,7 @@ export default function AddDoctor() {
 
                     </div>
 
+                    {/* department */}
                     {<div className="mb-3">
                         <label htmlFor="department" className="form-label">
                             Select a Department:
