@@ -4,7 +4,6 @@ const emailValidator = require("../utils/emailValidator.js");
 const phoneValidator = require("../utils/phoneValidator.js");
 const nameValidator = require("../utils/nameValidator.js");
 const addressValidator = require("../utils/addressValidator.js");
-const fileValidator = require("../utils/fileValidator.js");
 
 // index
 const index = (req, res) => {
