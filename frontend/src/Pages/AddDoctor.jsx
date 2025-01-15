@@ -26,15 +26,29 @@ export default function AddDoctor() {
     function HandleFormSubmit(e) {
         e.preventDefault()
 
-        //validazione dati
+        const phoneRegex = /^\+?[0-9]+$/;
+
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+        // Validazione dati
         if (formData.name.length < 3) {
-            setError('Name length must be longer than 3!');
+            setError('Il nome deve contenere almeno 3 caratteri!');
         } else if (formData.last_name.length < 3) {
-            setError('Lastname length must be longer than 3!');
+            setError('Il cognome deve contenere almeno 3 caratteri!');
         } else if (formData.address.length < 5) {
+
+            setError('L\'indirizzo deve contenere almeno 5 caratteri!');
+        } else if (Object.entries(formData).some(([key, value]) => key !== 'description' && value.trim() === '')) {
+            setError('Tutti i campi obbligatori devono essere compilati!');
+        } else if (!phoneRegex.test(formData.phone_number) && (formData.phone_number.includes("+") && formData.phone_number.indexOf("+") !== 0)) {
+            setError('Il numero di telefono non è valido o il simbolo + non è all\'inizio');
+        } else if (formData.email.length > 254 || !emailRegex.test(formData.email)) {
+            setError('L\'email non è valida');
+
             setError('Address length must be longer than 5!');
         } else if ((formData.name.length || formData.last_name.length || formData.department.length || formData.email.length || formData.phone_number.length || formData.address.length) === 0) {
             setError('Fields values cannot be empty!');
+
         } else {
 
             fetch(`${apiUrl}/api/doctors`, {
@@ -46,12 +60,21 @@ export default function AddDoctor() {
                 .then(response => {
                     console.log(response);
                     setFormData(response)
+
+                    // Verifica se l'email esiste già nel database
+                    if (formData.email.exists) {
+                        setError('L\'email inserita è già registrata!');
+                        return;
+                    }
+
+
                     navigate('/');
                 })
                 .catch(err => console.error(err))
 
             setFormData(initialFormData)
         }
+
     }
 
     useEffect(() => {
@@ -78,21 +101,20 @@ export default function AddDoctor() {
         }))
     }
 
-    /*const handleDepartmentChange = (e) => {
-        const department = e.target.value;
-
-        setSelectedDepartment(department); // aggiorno lo stato del select
-
-        setFormData({
-            ...formData,
-            department: department // aggiorno anche formData
-        });
-    };*/
-
     const handleDepartmentChange = (e) => {
         const department = e.target.value;
+
+
+        setFormData((formData) => ({
+            ...formData,
+            department: department
+        }));
+        setSelectedDepartment(department);
+
+
         setSelectedDepartment(department);
         setFormData({ ...formData, department });
+
     };
 
 
