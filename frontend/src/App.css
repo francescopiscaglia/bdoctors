@@ -13,6 +13,7 @@ img {
 }
 
 header {
+    height: 60px;
 
     nav {
         background-color: var(--bdoc-lighter);
@@ -31,6 +32,7 @@ header {
 
 main {
     color: var(--bdoc-text);
+    min-height: calc(100vh - 60px - 70px);
 
     .banner {
         background-color: var(--bdoc-jumbotron-bg);
@@ -52,6 +54,11 @@ main {
                 font-weight: 600;
             }
         }
+
+    }
+
+    .doc-card {
+        background-color: var(--bdoc-jumbotron-bg) !important;
     }
 
     .submit {
@@ -67,6 +74,7 @@ main {
 
 footer {
     background-color: var(--bdoc-footer-bg);
+    height: 70px;
 
     span {
         color: var(--bdoc-btn)
