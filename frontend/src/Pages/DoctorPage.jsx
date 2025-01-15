@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import SingleDoc from "../Components/SingleDoc";
 import ReviewCard from "../Components/ReviewCard";
 import SingleDocCard from "../Components/SingleDocCard";
+import AddReview from "../Components/AddReview";
 
 export default function DoctorPage() {
+
+    const initialFormData = {
+        username: '',
+        rating: '',
+        review_text: ""
+    };
+
     const [doctorDetails, setDoctorDetails] = useState(null); // variables for doctor's details
     const [doctorReviews, setDoctorReviews] = useState([]); // variables for reviews
+    const [formData, setFormData] = useState(initialFormData);
+
     const { id } = useParams();
 
     // chiamata per doctor.id
@@ -25,14 +34,12 @@ export default function DoctorPage() {
     // useEffect
     useEffect(() => {
         fetchDocDetails(id);
-    }, [id])
+    }, [id, formData])
 
     if (!doctorDetails) {
         return <p>Loading...</p>;
     }
 
-    // cv static link
-    const cvUrl = `http://localhost:3008/uploads/DOCTOR.pdf`; // works with link hardcoded to the crash course file
 
     return (
         <>
@@ -41,16 +48,12 @@ export default function DoctorPage() {
                     <div className="col">
 
                         {/* doctor card */}
-                        <SingleDocCard doctorDetails={doctorDetails} />
+                        <SingleDocCard doctorDetails={doctorDetails} doctorReviews={doctorReviews} />
 
-                        {/* cv preview */}
-                        <h3>My Curriculum Vitae:</h3>
-                        <div className="card p-3 my-3">
-                            <a href={cvUrl} className="text-decoration-none" target="_blank">View my CV</a>
-                        </div>
+                        <AddReview formData={formData} setFormData={setFormData} initialFormData={initialFormData} />
 
                         {/* reviews */}
-                        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 mb-4">
                             {doctorReviews.map(review => (
 
                                 <ReviewCard key={review.id} review={review} />
