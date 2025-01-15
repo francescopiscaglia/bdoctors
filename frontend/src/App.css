@@ -63,7 +63,14 @@ main {
 
     .submit {
         background-color: var(--bdoc-btn);
+        color: var(--bdoc-lighter);
     }
+
+    .submit:hover {
+        background-color: var(--bdoc-jumbotron-bg);
+        color: var(--bdoc-hover-lighter);
+    }
+
 
     .badge {
         background-color: var(--bdoc-btn);

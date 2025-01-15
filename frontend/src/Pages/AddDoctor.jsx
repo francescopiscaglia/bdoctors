@@ -243,7 +243,7 @@ export default function AddDoctor() {
 
                     </div>
 
-                    <button type="submit" className="btn btn-success d-block m-auto">Login</button>
+                    <button type="submit" className="btn submit d-block m-auto">Add</button>
 
                     {error && <span className="text-danger mx-2">{error}</span>}
                 </form>
