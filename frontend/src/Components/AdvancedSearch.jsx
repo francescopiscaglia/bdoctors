@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import DoctorCard from "./DoctorCard";
 
 export default function AdvancedResearch() {
 
@@ -96,7 +97,7 @@ export default function AdvancedResearch() {
                     </div>
 
                     {/* name search bar */}
-                    <div className="mb-3">
+                    <div className="">
                         <label htmlFor="exampleInputName" className="form-label">Name</label>
                         <input
                             type="text"
@@ -110,7 +111,7 @@ export default function AdvancedResearch() {
                     </div>
 
                     {/* lastname search bar */}
-                    <div className="col mb-3">
+                    <div className="col">
                         <label htmlFor="exampleInputName" className="form-label">Lastname</label>
                         <input
                             type="text"
@@ -126,36 +127,12 @@ export default function AdvancedResearch() {
                     <button
                         type="submit"
                         className="btn btn-sm ms-2 submit"
-                        style={{ width: "100px" }}
+                        style={{ width: "80px" }}
                     >
-                        Submit</button>
+                        Find</button>
                 </form>
 
-                <div className="mt-4">
-                    {filteredDoctors.length > 0 ? (
-                        <div className="row">
-                            {filteredDoctors.map((doctor) => (
-                                <div className="col-md-4 mb-3" key={doctor.id}>
-                                    <div className="card shadow-sm">
-                                        <div className="card-body">
-                                            <h5 className="card-title">
-                                                {doctor.name} {doctor.last_name}
-                                            </h5>
-                                            <p className="card-text">
-                                                <strong>Email:</strong> {doctor.email}
-                                            </p>
-                                            <p className="card-text">
-                                                <strong>Department:</strong> {doctor.department}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div></div>
-                    )}
-                </div>
+                <DoctorCard filteredDoctors={filteredDoctors} />
             </div>
 
 

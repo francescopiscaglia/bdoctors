@@ -30,6 +30,7 @@ header {
 }
 
 main {
+    color: var(--bdoc-text);
 
     .banner {
         background-color: var(--bdoc-jumbotron-bg);
@@ -55,7 +56,12 @@ main {
 
     .submit {
         background-color: var(--bdoc-btn);
-        color: var(--bdoc-text);
+    }
+
+    .badge {
+        background-color: var(--bdoc-btn);
+        padding: 7px;
+        font-size: 10px;
     }
 }
 
