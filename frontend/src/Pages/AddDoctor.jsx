@@ -25,22 +25,28 @@ export default function AddDoctor() {
 
     const navigate = useNavigate();
 
-
-
     const apiUrl = 'http://localhost:3008';
 
     function HandleFormSubmit(e) {
         e.preventDefault()
 
-        //validazione dati
+        const phoneRegex = /^\+?[0-9]+$/;
+
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+        // Validazione dati
         if (formData.name.length < 3) {
-            setError('Name length must be longer than 3!');
+            setError('Il nome deve contenere almeno 3 caratteri!');
         } else if (formData.last_name.length < 3) {
-            setError('Lastname length must be longer than 3!');
+            setError('Il cognome deve contenere almeno 3 caratteri!');
         } else if (formData.address.length < 5) {
-            setError('Lastname length must be longer than 5!');
-        } else if ((formData.name.length || formData.last_name.length || formData.department.length || formData.email.length || formData.phone_number.length || formData.address.length) === 0) {
-            setError('Fields values cannot be empty!');
+            setError('L\'indirizzo deve contenere almeno 5 caratteri!');
+        } else if (Object.entries(formData).some(([key, value]) => key !== 'description' && value.trim() === '')) {
+            setError('Tutti i campi obbligatori devono essere compilati!');
+        } else if (!phoneRegex.test(formData.phone_number) && (formData.phone_number.includes("+") && formData.phone_number.indexOf("+") !== 0)) {
+            setError('Il numero di telefono non è valido o il simbolo + non è all\'inizio');
+        } else if (formData.email.length > 254 || !emailRegex.test(formData.email)) {
+            setError('L\'email non è valida');
         } else {
 
             fetch(`${apiUrl}/api/doctors`, {
@@ -50,8 +56,13 @@ export default function AddDoctor() {
             })
                 .then(res => res.json())
                 .then(response => {
-                    console.log(response.data);
-                    setFormData(response.data)
+                    console.log(response);
+                    setFormData(response)
+                    // Verifica se l'email esiste già nel database
+                    if (formData.email.exists) {
+                        setError('L\'email inserita è già registrata!');
+                        return;
+                    }
                     navigate('/');
                 })
                 .catch(err => console.error(err)
@@ -59,13 +70,14 @@ export default function AddDoctor() {
 
             setFormData(initialFormData)
         }
+
     }
 
     useEffect(() => {
         fetch(`${apiUrl}/api/doctors`)
             .then(response => response.json())
             .then(response => {
-                const allDoctors = response.data || [];
+                const allDoctors = response || [];
 
                 setDoctors(allDoctors);
 
@@ -87,22 +99,14 @@ export default function AddDoctor() {
         }))
     }
 
-    /*const handleDepartmentChange = (e) => {
-        const department = e.target.value;
-
-        setSelectedDepartment(department); // aggiorno lo stato del select
-
-        setFormData({
-            ...formData,
-            department: department // aggiorno anche formData
-        });
-    };*/
-
     const handleDepartmentChange = (e) => {
         const department = e.target.value;
 
-        const filtered = doctors.filter((doctor) => doctor.department === department);
-        setSelectedDepartment(filtered);
+        setFormData((formData) => ({
+            ...formData,
+            department: department
+        }));
+        setSelectedDepartment(department);
 
     };
 
