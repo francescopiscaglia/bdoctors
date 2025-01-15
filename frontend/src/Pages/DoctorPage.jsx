@@ -32,7 +32,7 @@ export default function DoctorPage() {
     }
 
     // cv static link
-    const cvUrl = `http://localhost:3008/uploads/${doctorDetails.cv}`; // works with link hardcoded to the crash course file
+    const cvUrl = `http://localhost:3008/uploads/DOCTOR.pdf`; // works with link hardcoded to the crash course file
 
     return (
         <>
@@ -43,12 +43,10 @@ export default function DoctorPage() {
                         {/* doctor card */}
                         <SingleDocCard doctorDetails={doctorDetails} />
 
-
                         {/* cv preview */}
-                        <div className="card p-3 my-3 doc-card">
-                            <h3>My Curriculum Vitae:</h3>
-                            <embed src={cvUrl}
-                                type="application/pdf" />
+                        <h3>My Curriculum Vitae:</h3>
+                        <div className="card p-3 my-3">
+                            <a href={cvUrl} className="text-decoration-none" target="_blank">View my CV</a>
                         </div>
 
                         {/* reviews */}
