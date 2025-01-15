@@ -53,24 +53,30 @@ export default function DoctorPage() {
                         <div className="card p-3 my-3">
                             <h3>My Curriculum Vitae:</h3>
                             <embed src={cvUrl}
-                            type="application/pdf" />
+                                type="application/pdf" />
                         </div>
 
                         {/* reviews */}
                         <h3>My patients' reviews:</h3>
-                        {doctorReviews.map(review => (
-                            <div className="card p-3 my-3" key={review.id}>
-                                <p>
-                                    <strong>User: </strong>{review.username}
-                                </p>
-                                <p>
-                                    <strong>Rating: </strong>{review.rating}/5
-                                </p>
-                                <p>
-                                    <strong>Comment: </strong>{review.review_text}
-                                </p>
+                        {doctorReviews.length === 0 ? (
+                            <div className="card p-3 my-3">
+                                <p>No reviews yet</p>
                             </div>
-                        ))}
+                        ) : (
+                            doctorReviews.map((review) => (
+                                <div className="card p-3 my-3" key={review.id}>
+                                    <p>
+                                        <strong>User: </strong>{review.username}
+                                    </p>
+                                    <p>
+                                        <strong>Rating: </strong>{review.rating}/5
+                                    </p>
+                                    <p>
+                                        <strong>Comment: </strong>{review.review_text}
+                                    </p>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             </div>
