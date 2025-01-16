@@ -11,6 +11,14 @@ export default function AdvancedResearch() {
     const [filteredDoctors, setFilteredDoctors] = useState([]);
     const [searchName, setSearchName] = useState("");
     const [searchLastName, setSearchLastName] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [resultsPerPage] = useState(5); // Ad esempio, 5 risultati per pagina
+
+    // Calcolo dei risultati visibili
+    const indexOfLastResult = currentPage * resultsPerPage;
+    const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+    const currentResults = filteredDoctors.slice(indexOfFirstResult, indexOfLastResult);
+    const totalPages = Math.ceil(filteredDoctors.length / resultsPerPage);
 
     // fetch
     const fetchData = async () => {
@@ -31,6 +39,11 @@ export default function AdvancedResearch() {
     useEffect(() => {
         fetchData();
     }, []);
+
+    // pages
+    function handlePageChange(pageNumber) {
+        setCurrentPage(pageNumber);
+    }
 
     // form handle
     function handleFormSubmit(e) {
@@ -68,6 +81,13 @@ export default function AdvancedResearch() {
     return (
         <>
             <div className="container">
+
+                <h1>Ricerca Avanzata</h1>
+
+                <p className="pt-4 text-secondary">Dottori trovati : {filteredDoctors.length}</p>
+
+
+
                 <form className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 needs-validation mt-3" onSubmit={handleFormSubmit}>
 
                     {/* select */}
@@ -132,10 +152,45 @@ export default function AdvancedResearch() {
                         Find</button>
                 </form>
 
-                <DoctorCard filteredDoctors={filteredDoctors} />
+                <nav aria-label="Pagination">
+                    <ul className="pagination justify-content-center mt-4">
+                        {/* Pulsante "Back" */}
+                        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                            <button
+                                className="page-link"
+                                onClick={() => handlePageChange(currentPage - 1)}
+                            >
+                                Back
+                            </button>
+                        </li>
+
+                        {/* Numeri di pagina */}
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <li key={index + 1} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+                                <button
+                                    className="page-link bg-danger"
+                                    onClick={() => handlePageChange(index + 1)}
+                                >
+                                    {index + 1}
+                                </button>
+                            </li>
+                        ))}
+
+                        {/* Pulsante "Next" */}
+                        <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                            <button
+                                className="page-link"
+                                onClick={() => handlePageChange(currentPage + 1)}
+                            >
+                                Next
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+
+
+                <DoctorCard filteredDoctors={currentResults} />
             </div>
-
-
         </>
     );
 };
