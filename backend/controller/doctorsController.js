@@ -8,7 +8,7 @@ const addressValidator = require("../utils/addressValidator.js");
 // index
 const index = (req, res) => {
 
-    const sql = `SELECT * FROM doctors`;
+    const sql = `SELECT * FROM doctors ORDER BY id DESC`;
 
     // eseguire la query sul database
     DBConnection.query(sql, (err, result) => {
@@ -151,11 +151,29 @@ const DocCreate = async (req, res) => {
 
 
 // create
-const RevCreate = (req, res) => {
+const RevCreate = async (req, res) => {
 
     // recuperare i dati dal body
     const { username, rating, review_text } = req.body;
-    const { doctor_id } = req.params;
+    const { slug } = req.params;
+
+    const findDocSql = `SELECT * FROM doctors WHERE slug = ?`
+
+    const findDoc = await new Promise((resolve, reject) => {
+        DBConnection.query(findDocSql, [slug], (err, result) => {
+            if (err) {
+                return reject(err);
+            };
+
+            return resolve(result[0]);
+        });
+    });
+
+    const doctor_id = findDoc.id;
+
+    if (findDoc.length <= 0) {
+        return res.status(404).send("Doctor not found");
+    };
 
 
     if (!username || !rating || !review_text) {
