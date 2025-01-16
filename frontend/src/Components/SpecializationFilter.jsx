@@ -1,94 +1,96 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import './SpecializationFilter';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DoctorCard from "./DoctorCard";
 
-const DoctorSearch = () => {
-  const [doctors, setDoctors] = useState([]);
+export default function DoctorList() {
+  const [data, setData] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [filteredDoctors, setFilteredDoctors] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState("");
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
 
-  useEffect(() => {
-    const fetchDoctors = async () => {
-      setLoading(true);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:3008/api/doctors");
+      const doctors = response.data;
 
-      try {
-        const response = await axios.get("http://localhost:3008/api/doctors");
-        const allDoctors = response.data;
+      const sortedDoctors = doctors.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      );
 
-        setDoctors(allDoctors);
-
-
-        const departmentsList = [
-          ...new Set(allDoctors.map((doctor) => doctor.department)),
-        ];
-        setDepartments(departmentsList);
-
-        setFilteredDoctors(allDoctors);
-      } catch (error) {
-        console.error("Errore nel recupero dei medici:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDoctors();
-  }, []);
+      setData(sortedDoctors);
+      setFilteredDoctors(sortedDoctors);
 
 
-  const handleDepartmentChange = (e) => {
-    const department = e.target.value;
-    setSelectedDepartment(department);
-
-
-    if (department === "") {
-      setFilteredDoctors(doctors);
-    } else {
-      const filtered = doctors.filter((doctor) => doctor.department === department);
-      setFilteredDoctors(filtered);
+      const uniqueDepartments = [
+        ...new Set(doctors.map((doctor) => doctor.department)),
+      ];
+      setDepartments(uniqueDepartments);
+    } catch (error) {
+      console.error("Errore nel caricamento dei dati:", error);
     }
   };
 
-  return (
-    <div className="container py-5">
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-      {/* select department */}
-      <div className="row justify-start mb-4">
-        <div className="col-12 col-md-3">
-          <label htmlFor="department" className="form-label text-muted">
-            Select a Department:
+  // Navigazione alla pagina di ricerca avanzata
+  const handleDepartmentChange = (e) => {
+    setSelectedDepartment(e.target.value);
+  };
+
+  const handleNavigateToAdvancedSearch = () => {
+    navigate("search", { state: { department: selectedDepartment } });
+  };
+
+  return (
+    <div className="container mt-4">
+      <h1 className="text-center mb-4">Doctors</h1>
+
+      {/* Tendina dei reparti */}
+      <div className="row justify-content-center align-items-center mb-4">
+          <label htmlFor="department" className="form-label text-center">
+            Search by Department:
           </label>
-          <select
-            id="department"
-            value={selectedDepartment}
-            onChange={handleDepartmentChange}
-            className="form-select"
-            style={{ fontSize: "14px" }}
-          >
-            <option value="">-- All --</option>
-            {departments.map((department) => (
-              <option key={department} value={department}>
-                {department}
-              </option>
-            ))}
-          </select>
-        </div>
+        
+          <div className="col-auto">
+            <select
+              className="form-select"
+              style={{ minWidth: "200px" }}
+              id="department"
+              onChange={handleDepartmentChange}
+            >
+              <option value="">-- Select a Department --</option>
+              {departments.map((department, index) => (
+                <option key={index} value={department}>
+                  {department}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-auto">
+            <button
+              className="btn btn-primary btn"
+              style={{ width: "200px" }}
+              onClick={handleNavigateToAdvancedSearch}
+              disabled={!selectedDepartment}
+            >
+              Go to Advanced Search
+            </button>
+          </div>
+        
       </div>
 
-      {loading && <p className="text-center">Caricamento medici...</p>}
+      {/* Conteggio dei medici */}
+      <p className="text-center">
+        Medici visualizzati: <strong>{filteredDoctors.length}</strong>
+      </p>
 
-      {/* doctors card */}
-      <DoctorCard filteredDoctors={filteredDoctors} loading={loading} />
-
-      {!loading && filteredDoctors.length === 0 && (
-        <p className="text-center text-muted">Nessun medico trovato per questo reparto.</p>
-      )}
+      {/* Lista dei medici */}
+      <DoctorCard doctors={filteredDoctors} />
     </div>
   );
-};
-
-export default DoctorSearch;
+}

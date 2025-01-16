@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import DoctorCard from "./DoctorCard";
 
 export default function AdvancedResearch() {
+    const location = useLocation();
+    const initialDepartment = location.state?.department || "";
 
     // state
     const [data, setData] = useState([]);
@@ -17,15 +20,30 @@ export default function AdvancedResearch() {
         try {
             const response = await axios.get("http://localhost:3008/api/doctors");
             const doctors = response.data;
-            setData(response.data);
+            
+
+            const sortedDoctors = doctors.sort(
+                (a, b) => new Date(b.created_at) - new Date(a.created_at)
+              );
+        
+              setData(sortedDoctors);
+              
 
             // Estrai i reparti senza duplicati
             const UniqueDepartments = [...new Set(doctors.map(doctor => doctor.department))];
             setDepartments(UniqueDepartments);
 
-        } catch (error) {
-            console.error(error);
-        };
+            if (initialDepartment) {
+                const initialFilteredDoctors = sortedDoctors.filter(
+                  (doctor) => doctor.department === initialDepartment
+                );
+                setFilteredDoctors(initialFilteredDoctors);
+              } else {
+                setFilteredDoctors(sortedDoctors);
+              }
+            } catch (error) {
+              console.error("Errore nel caricamento dei dati:", error);
+            }
     };
 
     useEffect(() => {
@@ -132,7 +150,7 @@ export default function AdvancedResearch() {
                         Find</button>
                 </form>
 
-                <DoctorCard filteredDoctors={filteredDoctors} />
+                <DoctorCard doctors={filteredDoctors} />
             </div>
 
 
