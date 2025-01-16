@@ -16,13 +16,15 @@ export default function DoctorPage() {
     const [doctorReviews, setDoctorReviews] = useState([]); // variables for reviews
     const [formData, setFormData] = useState(initialFormData);
 
-    const { id } = useParams();
+    const { slug } = useParams();
+    console.log('Slug trovato:', slug);
 
-    // chiamata per doctor.id
-    const fetchDocDetails = (id) => {
-        fetch(`http://localhost:3008/api/doctors/${id}`)
+    // chiamata per doctor.slug
+    const fetchDocDetails = (slug) => {
+        fetch(`http://localhost:3008/api/doctors/${slug}`)
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setDoctorDetails(data.doctor);
                 setDoctorReviews(data.reviews);
             })
@@ -33,8 +35,8 @@ export default function DoctorPage() {
 
     // useEffect
     useEffect(() => {
-        fetchDocDetails(id);
-    }, [id, formData])
+        fetchDocDetails(slug);
+    }, [slug, formData])
 
     if (!doctorDetails) {
         return <p>Loading...</p>;

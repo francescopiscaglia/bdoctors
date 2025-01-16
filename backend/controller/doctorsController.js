@@ -27,14 +27,14 @@ const index = (req, res) => {
 // show
 const show = (req, res) => {
 
-    const { id } = req.params;
-    const DocSql = `SELECT * FROM doctors WHERE id = ?`;
+    const { slug } = req.params;
+    const DocSql = `SELECT * FROM doctors WHERE slug = ?`;
     const RevSql = `SELECT * FROM reviews WHERE doctor_id = ?`;
 
-    if (!id) return res.status(500).json({ error: "Please insert id" });
+    if (!slug) return res.status(500).json({ error: "Please insert slug" });
 
     // eseguire la query sul database
-    DBConnection.query(DocSql, [id], (err, result) => {
+    DBConnection.query(DocSql, [slug], (err, result) => {
         if (err) {
             console.log(err);
             return res.status(500).json({ error: "Error retrieving doctor from database" });
@@ -46,7 +46,7 @@ const show = (req, res) => {
         const doctor = result[0];
 
         // eseguire la query sul database
-        DBConnection.query(RevSql, [id], (err, result) => {
+        DBConnection.query(RevSql, [doctor.id], (err, result) => {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ error: "Error retrieving reviews from database" });
@@ -63,6 +63,19 @@ const show = (req, res) => {
 
 // create 
 const DocCreate = async (req, res) => {
+
+    // funzione per generare slug
+    function generateSlug(name, last_name) {
+        const fullName = `${name} ${last_name}`;
+        const slug = fullName
+            .toLowerCase()
+            .replace(/[^a-z0-9 -]/g, '') // toglie caratteri speciali
+            .replace(/|s+/g, '-') // mette "-" al posto degli spazi
+            .replace(/-+/g, '-') // mette un "-" nel caso di multipli
+            .trim() // rimuove spazi multipli
+
+        /* RICORDA: mancano le condizioni per rendere lo slug unico! O gli omonimi daranno errore nel db */
+    }
 
     // recuperare i dati dal body
     const { name, last_name, department, email, phone_number, address, description, } = req.body;
@@ -88,6 +101,9 @@ const DocCreate = async (req, res) => {
     // se il numero di telefono contiene lettere o simboli diversi da "+"  se é presente "+", deve essere all'inizio
     if (!phoneValidator(phone_number)) return res.status(400).json({ error: "Invalid phone number format" });
 
+    // generazione slug
+    const slug = generateSlug(name, last_name);
+
     // se la mail inserita esiste giá nel sistema
     const checkEmailSql = `SELECT * FROM doctors WHERE email = ?`;
 
@@ -105,9 +121,9 @@ const DocCreate = async (req, res) => {
     if (emailExist) return res.status(400).json({ error: "Email already exists in the system" });
 
     // eseguire la query
-    const sql = `INSERT INTO doctors (name, last_name, department, email, phone_number, address, description, cv) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO doctors (name, last_name, department, email, phone_number, address, description, cv, slug) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    DBConnection.query(sql, [name, last_name, department, email, phone_number, address, description, cv], (err, result) => {
+    DBConnection.query(sql, [name, last_name, department, email, phone_number, address, description, cv, slug], (err, result) => {
         if (err) {
             console.log(err);
             return res.status(500).send("Error creating doctor");
@@ -121,7 +137,8 @@ const DocCreate = async (req, res) => {
             email,
             phone_number,
             address,
-            description
+            description,
+            slug
         };
 
         res.status(201).json({
