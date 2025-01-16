@@ -82,9 +82,9 @@ export default function AdvancedResearch() {
         <>
             <div className="container">
 
-                <h1>Ricerca Avanzata</h1>
+                <h1>Advanced Search</h1>
 
-                <p className="pt-4 text-secondary">Dottori trovati : {filteredDoctors.length}</p>
+                <p className="pt-4 text-secondary">Doctors found : {filteredDoctors.length}</p>
 
 
 
