@@ -68,7 +68,6 @@ main {
 
     .submit:hover {
         background-color: var(--bdoc-jumbotron-bg);
-        color: var(--bdoc-hover-lighter);
     }
 
 
@@ -83,6 +82,7 @@ main {
         border-radius: 5px;
         margin-right: 1rem;
         margin-bottom: 2.3rem;
+        border: 1px solid gray !important;
     }
 
     .page-link:hover {
@@ -91,7 +91,17 @@ main {
         border-radius: 5px;
         margin-right: 1rem;
         margin-bottom: 2.3rem;
+    }
 
+    .navigate-adv-search {
+        background-color: var(--bdoc-btn) !important;
+        border: 1px solid gray !important;
+        color: var(--bdoc-lighter) !important;
+    }
+
+    .navigate-adv-search:hover {
+        background-color: var(--bdoc-jumbotron-bg) !important;
+        color: var(--bdoc-darker) !important;
     }
 }
 

@@ -48,45 +48,47 @@ export default function DoctorList() {
 
   return (
     <div className="container mt-4">
-      <h1 className="text-center mb-4">Doctors</h1>
 
       {/* Tendina dei reparti */}
       <div className="row justify-content-center align-items-center mb-4">
-          <label htmlFor="department" className="form-label text-center">
-            Search by Department:
-          </label>
-        
-          <div className="col-auto">
-            <select
-              className="form-select"
-              style={{ minWidth: "200px" }}
-              id="department"
-              onChange={handleDepartmentChange}
-            >
-              <option value="">-- Select a Department --</option>
-              {departments.map((department, index) => (
-                <option key={index} value={department}>
-                  {department}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-auto">
-            <button
-              className="btn btn-primary btn"
-              style={{ width: "200px" }}
-              onClick={handleNavigateToAdvancedSearch}
-              disabled={!selectedDepartment}
-            >
-              Go to Advanced Search
-            </button>
-          </div>
-        
+        <label htmlFor="department" className="form-label text-center" style={{ fontSize: "14px" }}>
+          Search by Department:
+        </label>
+
+        <div className="col-auto">
+          <select
+            className="form-select"
+            style={{ minWidth: "200px", fontSize: "14px" }}
+            id="department"
+            onChange={handleDepartmentChange}
+          >
+            <option
+              value=""
+              className="text-secondary"
+            >-- All Department --</option>
+            {departments.map((department, index) => (
+              <option key={index} value={department}>
+                {department}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-auto">
+          <button
+            className="btn navigate-adv-search"
+            style={{ width: "200px", fontSize: "14px" }}
+            onClick={handleNavigateToAdvancedSearch}
+            disabled={!selectedDepartment}
+          >
+            Go to Advanced Search
+          </button>
+        </div>
+
       </div>
 
       {/* Conteggio dei medici */}
-      <p className="text-center">
-        Medici visualizzati: <strong>{filteredDoctors.length}</strong>
+      <p className="text-center text-secondary" style={{ fontSize: "12px" }}>
+        Doctors found: {filteredDoctors.length}
       </p>
 
       {/* Lista dei medici */}
