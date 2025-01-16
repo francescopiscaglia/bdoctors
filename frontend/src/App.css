@@ -103,6 +103,15 @@ main {
         background-color: var(--bdoc-jumbotron-bg) !important;
         color: var(--bdoc-darker) !important;
     }
+
+    .review-body {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+    }
 }
 
 footer {
