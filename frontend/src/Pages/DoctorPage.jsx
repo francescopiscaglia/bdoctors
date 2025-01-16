@@ -17,14 +17,13 @@ export default function DoctorPage() {
     const [formData, setFormData] = useState(initialFormData);
 
     const { slug } = useParams();
-    console.log('Slug trovato:', slug);
+    //console.log('Slug trovato:', slug);
 
     // chiamata per doctor.slug
     const fetchDocDetails = (slug) => {
         fetch(`http://localhost:3008/api/doctors/${slug}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setDoctorDetails(data.doctor);
                 setDoctorReviews(data.reviews);
             })
