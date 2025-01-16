@@ -31,7 +31,7 @@ export default function DoctorList() {
       ];
       setDepartments(uniqueDepartments);
     } catch (error) {
-      console.error("Errore nel caricamento dei dati:", error);
+      console.error("Error loading data:", error);
     }
   };
 

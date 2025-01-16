@@ -29,18 +29,15 @@ export default function AddDoctor() {
 
         // Validazione dati
         if (formData.name.length < 3) {
-            setError('Il nome deve contenere almeno 3 caratteri!');
+            setError('Name must contain at least 3 characters!');
         } else if (formData.last_name.length < 3) {
-            setError('Il cognome deve contenere almeno 3 caratteri!');
+            setError('Last name must contain at least 3 characters!');
         } else if (formData.address.length < 5) {
-
-            setError('L\'indirizzo deve contenere almeno 5 caratteri!');
+            setError('Address must contain at least 5 characters!');
         } else if (formData.phone_number.includes("+") && formData.phone_number.indexOf("+") !== 0) {
-            setError('Il numero di telefono non è valido o il simbolo + non è all\'inizio');
+            setError('Phone number is not valid or the ' + ' symbol is not at the beginning.');
         } else if (formData.email.length > 254) {
-            setError('L\'email non è valida');
-
-            setError('Address length must be longer than 5!');
+            setError('Email not valid');
         } else if ((formData.name.length || formData.last_name.length || formData.department.length || formData.email.length || formData.phone_number.length || formData.address.length) === 0) {
             setError('Fields values cannot be empty!');
 
@@ -60,7 +57,7 @@ export default function AddDoctor() {
 
                     // Verifica se l'email esiste già nel database
                     if (formData.email.exists) {
-                        setError('L\'email inserita è già registrata!');
+                        setError('Email already exist');
                         return;
                     }
 
@@ -91,7 +88,7 @@ export default function AddDoctor() {
 
                 setDepartments(departmentsList);
             })
-            .catch(err => console.error("Errore nel caricamento dei reparti:", err));
+            .catch(err => console.error("Error loading departments:", err));
     }, [success]);
 
     function handleFormField(e) {
@@ -184,7 +181,7 @@ export default function AddDoctor() {
                         <label htmlFor="email" className="form-label">Email*</label>
                         <input
                             type="text"
-                            pattern="/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*\.[a-zA-Z]{2,}$/"
+                            pattern="[A-z0-9\.\+-]+@[A-z0-9\.-]+\.[A-z]{2,6}"
                             title="Like abc123@gmail.com"
                             className="form-control"
                             name="email"

@@ -53,7 +53,7 @@ export default function AdvancedResearch() {
                 setFilteredDoctors(sortedDoctors);
             }
         } catch (error) {
-            console.error("Errore nel caricamento dei dati:", error);
+            console.error("Error loading data:", error);
         }
     };
 
