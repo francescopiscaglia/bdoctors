@@ -71,12 +71,10 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
                         </div>
 
-                        {/* lastname */}
-                        <div className="mb-3 col">
-                            <label htmlFor="rating" className="form-label">Rating*</label>
-                            <input
+                        <div>
+                            <label htmlForfor="floatingSelect" className="mb-2">Rating*</label>
+                            <select className="form-select" aria-label="Floating label select example"
                                 type="text"
-                                className="form-control"
                                 name="rating"
                                 id="rating"
                                 aria-describedby="helpId"
@@ -84,10 +82,16 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                                 required
                                 value={formData.rating}
                                 onChange={handleFormField}
-                            />
+                            >
+                                <option selected>-- No Rating --</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
 
                         </div>
-
 
                         <div className="mb-3 col">
                             <label htmlFor="review_text" className="form-label">Type your review</label>
