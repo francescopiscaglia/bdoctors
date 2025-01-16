@@ -19,7 +19,7 @@ export default function AddDoctor() {
     const [departments, setDepartments] = useState([]);
     const [error, setError] = useState(null)
     const [selectedDepartment, setSelectedDepartment] = useState("");
-    //const [success, setSuccess] = useState(null);
+    const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
 
     const apiUrl = 'http://localhost:3008';
@@ -69,14 +69,21 @@ export default function AddDoctor() {
                         alert('Ops! Something went wrong');
                     }*/
 
-                    alert('Doctor added successfully');
-                    navigate('/');
+                    // Controlla se la risposta è andata a buon fine
+                    if (response.success) {
+                        setSuccess(true);
+                        alert('Doctor added successfully');
+                        navigate('/');
+                    } else {
+                        setSuccess(false);
+                        alert('Ops! Something went wrong');
+                    }
 
                 })
-                .catch(err => {
-                    console.error(err);
-                    alert('Ops! Something went wrong');
-                })
+                .catch(err =>
+                    console.error(err)
+
+                )
 
             setFormData(initialFormData)
         }
@@ -98,7 +105,7 @@ export default function AddDoctor() {
                 setDepartments(departmentsList);
             })
             .catch(err => console.error("Error loading departments:", err));
-    }, []);
+    }, [success]);
 
     function handleFormField(e) {
         setFormData((formData) => ({
