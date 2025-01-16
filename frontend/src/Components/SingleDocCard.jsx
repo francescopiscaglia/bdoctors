@@ -35,7 +35,7 @@ export default function SingleDocCard({ doctorDetails, doctorReviews }) {
                                 <p className="card-text mb-1"><span className="text-muted">Phone: </span><i>{doctorDetails.phone_number}</i></p>
                                 <p className="card-text "><span className="text-muted">Address: </span><i>{doctorDetails.address}</i></p>
                                 <span className="badge text-bg-info mb-4">{
-                                    average ? average.toFixed(1) : "Not review yet"
+                                    average ? average.toFixed(1) : "0"
                                 }/5</span>
                                 <p className="card-text m-0"><span className="text-muted"></span>{doctorDetails.description}</p>
                             </div>
