@@ -68,6 +68,9 @@ export default function AddDoctor() {
                         setSuccess(true)
                         alert('Doctor added successfully')
                         navigate('/');
+                    } else {
+                        setSuccess(false)
+                        alert('Ops! something wrong happened')
                     }
                 })
                 .catch(err => console.error(err))

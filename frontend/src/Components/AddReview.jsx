@@ -29,6 +29,10 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                 .then(res => res.json())
                 .then(response => {
                     setFormData(response);
+
+                    if (response) {
+                        alert('Review added successfully')
+                    }
                 })
                 .catch(err => console.error(err))
 
