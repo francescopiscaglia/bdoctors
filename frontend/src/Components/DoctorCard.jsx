@@ -8,7 +8,7 @@ export default function DoctorCard({ doctors, loading }) {
                 {!loading && doctors.length > 0 ? (
                     <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3">
                         {doctors.map((doctor) => (
-                            <Link to={`/${doctor.id}`} className="col mb-3 text-decoration-none" key={doctor.id}>
+                            <Link to={`/${doctor.slug}`} className="col mb-3 text-decoration-none" key={doctor.id}>
                                 <div className="card shadow-sm">
                                     <img src="/default-doct.jpg" alt="default-dc" className="card-img-top" />
 
