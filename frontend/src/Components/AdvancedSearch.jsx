@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import DoctorCard from "./DoctorCard";
+import GlobalContext from "../context/GlobalContext";
 
 export default function AdvancedResearch() {
     const location = useLocation();
@@ -10,12 +12,13 @@ export default function AdvancedResearch() {
     // state
     const [data, setData] = useState([]);
     const [departments, setDepartments] = useState([]);
-    const [selectedDepartment, setSelectedDepartment] = useState("");
     const [filteredDoctors, setFilteredDoctors] = useState([]);
     const [searchName, setSearchName] = useState("");
     const [searchLastName, setSearchLastName] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [resultsPerPage] = useState(5); // Ad esempio, 5 risultati per pagina
+    const { selectedDepartment, setSelectedDepartment } = useContext(GlobalContext);
+
 
     // Calcolo dei risultati visibili
     const indexOfLastResult = currentPage * resultsPerPage;
@@ -116,7 +119,7 @@ export default function AdvancedResearch() {
                             onChange={handleDepartmentChange}
                         >
 
-                            <option value="" className="text-muted">-- Select a Department --</option>
+                            <option value="" className="text-muted">{selectedDepartment}</option>
 
                             {
                                 departments || departments.length > 0 ? departments.map((department, index) => (
