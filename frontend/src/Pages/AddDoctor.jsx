@@ -33,14 +33,11 @@ export default function AddDoctor() {
         } else if (formData.last_name.length < 3) {
             setError('Last name must contain at least 3 characters!');
         } else if (formData.address.length < 5) {
-
             setError('Address must contain at least 5 characters!');
         } else if (formData.phone_number.includes("+") && formData.phone_number.indexOf("+") !== 0) {
             setError('Phone number is not valid or the ' + ' symbol is not at the beginning.');
         } else if (formData.email.length > 254) {
             setError('Email not valid');
-
-            setError('Address length must be longer than 5!');
         } else if ((formData.name.length || formData.last_name.length || formData.department.length || formData.email.length || formData.phone_number.length || formData.address.length) === 0) {
             setError('Fields values cannot be empty!');
 
