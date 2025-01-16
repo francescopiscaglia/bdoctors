@@ -79,7 +79,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
                         <div>
                             <label htmlForfor="floatingSelect" className="mb-2">Rating*</label>
-                            <select className="form-select" aria-label="Floating label select example
+                            <select className="form-select" aria-label="Floating label select example"
                                 type="text"
                                 name="rating"
                                 id="rating"
