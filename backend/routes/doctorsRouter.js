@@ -13,6 +13,6 @@ router.get("/:slug", doctorsController.show);
 router.post("/", upload.single("cv"), doctorsController.DocCreate);
 
 // create => creo un nuova recensione
-router.post("/review/:doctor_id", doctorsController.RevCreate);
+router.post("/review/:slug", doctorsController.RevCreate);
 
 module.exports = router;

@@ -66,7 +66,7 @@ export default function AddDoctor() {
 
                     if (response) {
                         setSuccess(true)
-                        alert('Inserimento dati effettuato correttamente')
+                        alert('Doctor added successfully')
                         navigate('/');
                     }
                 })
@@ -121,7 +121,7 @@ export default function AddDoctor() {
         <>
             <div className="container border border-1 rounded py-4 my-5">
 
-                <h1 className="text-center">Sei un medico? Compila il form e registrati al nostro sito</h1>
+                <h1 className="text-center">Are you a doctor? Fill out the form and register on our website.</h1>
 
                 <form onSubmit={HandleFormSubmit} className="p-4">
 

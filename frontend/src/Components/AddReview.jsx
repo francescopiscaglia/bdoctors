@@ -7,7 +7,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
     // hooks
     const [error, setError] = useState(null);
-    const { id } = useParams();
+    const { slug } = useParams();
 
 
     function HandleFormSubmit(e) {
@@ -21,7 +21,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
             setError('Review required');
         } else {
 
-            fetch(`${apiUrl}/api/doctors//review/${id}`, {
+            fetch(`${apiUrl}/api/doctors/review/${slug}`, {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(formData),
