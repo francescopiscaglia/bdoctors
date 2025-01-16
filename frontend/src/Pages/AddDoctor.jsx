@@ -19,16 +19,13 @@ export default function AddDoctor() {
     const [departments, setDepartments] = useState([]);
     const [error, setError] = useState(null)
     const [selectedDepartment, setSelectedDepartment] = useState("");
+    const [success, setSuccess] = useState(null);
     const navigate = useNavigate();
 
     const apiUrl = 'http://localhost:3008';
 
     function HandleFormSubmit(e) {
         e.preventDefault()
-
-        const phoneRegex = /^\+?[0-9]+$/;
-
-        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
         // Validazione dati
         if (formData.name.length < 3) {
@@ -38,11 +35,9 @@ export default function AddDoctor() {
         } else if (formData.address.length < 5) {
 
             setError('L\'indirizzo deve contenere almeno 5 caratteri!');
-        } else if (Object.entries(formData).some(([key, value]) => key !== 'description' && value.trim() === '')) {
-            setError('Tutti i campi obbligatori devono essere compilati!');
-        } else if (!phoneRegex.test(formData.phone_number) && (formData.phone_number.includes("+") && formData.phone_number.indexOf("+") !== 0)) {
+        } else if (formData.phone_number.includes("+") && formData.phone_number.indexOf("+") !== 0) {
             setError('Il numero di telefono non è valido o il simbolo + non è all\'inizio');
-        } else if (formData.email.length > 254 || !emailRegex.test(formData.email)) {
+        } else if (formData.email.length > 254) {
             setError('L\'email non è valida');
 
             setError('Address length must be longer than 5!');
@@ -56,7 +51,9 @@ export default function AddDoctor() {
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(formData),
             })
-                .then(res => res.json())
+                .then(res => {
+                    return res.json();
+                })
                 .then(response => {
                     console.log(response);
                     setFormData(response)
@@ -67,8 +64,11 @@ export default function AddDoctor() {
                         return;
                     }
 
-
-                    navigate('/');
+                    if (response) {
+                        setSuccess(true)
+                        alert('Inserimento dati effettuato correttamente')
+                        navigate('/');
+                    }
                 })
                 .catch(err => console.error(err))
 
@@ -92,7 +92,7 @@ export default function AddDoctor() {
                 setDepartments(departmentsList);
             })
             .catch(err => console.error("Errore nel caricamento dei reparti:", err));
-    }, []);
+    }, [success]);
 
     function handleFormField(e) {
         setFormData((formData) => ({
@@ -117,11 +117,11 @@ export default function AddDoctor() {
 
     };
 
-
     return (
         <>
             <div className="container border border-1 rounded py-4 my-5">
 
+                <h1 className="text-center">Sei un medico? Compila il form e registrati al nostro sito</h1>
 
                 <form onSubmit={HandleFormSubmit} className="p-4">
 
@@ -162,7 +162,7 @@ export default function AddDoctor() {
                     {/* department */}
                     {<div className="mb-3">
                         <label htmlFor="department" className="form-label">
-                            Select a Department:
+                            Select a Department*:
                         </label>
                         <select
                             id="department"
@@ -183,7 +183,9 @@ export default function AddDoctor() {
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">Email*</label>
                         <input
-                            type="email"
+                            type="text"
+                            pattern="/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~\-]+@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*\.[a-zA-Z]{2,}$/"
+                            title="Like abc123@gmail.com"
                             className="form-control"
                             name="email"
                             id="email"
@@ -200,6 +202,7 @@ export default function AddDoctor() {
                         <label htmlFor="phone_number" className="form-label">Phone number*</label>
                         <input
                             type="text"
+                            pattern="^\+?[0-9]+$"
                             className="form-control"
                             name="phone_number"
                             id="phone_number"
