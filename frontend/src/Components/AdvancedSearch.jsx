@@ -28,14 +28,14 @@ export default function AdvancedResearch() {
         try {
             const response = await axios.get("http://localhost:3008/api/doctors");
             const doctors = response.data;
-            
+
 
             const sortedDoctors = doctors.sort(
                 (a, b) => new Date(b.created_at) - new Date(a.created_at)
-              );
-        
-              setData(sortedDoctors);
-              
+            );
+
+            setData(sortedDoctors);
+
 
             // Estrai i reparti senza duplicati
             const UniqueDepartments = [...new Set(doctors.map(doctor => doctor.department))];
@@ -43,15 +43,15 @@ export default function AdvancedResearch() {
 
             if (initialDepartment) {
                 const initialFilteredDoctors = sortedDoctors.filter(
-                  (doctor) => doctor.department === initialDepartment
+                    (doctor) => doctor.department === initialDepartment
                 );
                 setFilteredDoctors(initialFilteredDoctors);
-              } else {
+            } else {
                 setFilteredDoctors(sortedDoctors);
-              }
-            } catch (error) {
-              console.error("Errore nel caricamento dei dati:", error);
             }
+        } catch (error) {
+            console.error("Errore nel caricamento dei dati:", error);
+        }
     };
 
     useEffect(() => {
@@ -100,11 +100,7 @@ export default function AdvancedResearch() {
         <>
             <div className="container">
 
-                <h1>Advanced Search</h1>
-
-                <p className="pt-4 text-secondary">Doctors found : {filteredDoctors.length}</p>
-
-
+                <h1 className="my-2" style={{ fontSize: "35px" }}>Search for a doctor</h1>
 
                 <form className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 needs-validation mt-3" onSubmit={handleFormSubmit}>
 
@@ -167,16 +163,23 @@ export default function AdvancedResearch() {
                         className="btn btn-sm ms-2 submit"
                         style={{ width: "80px" }}
                     >
-                        Find</button>
+                        Find
+                    </button>
+
+
                 </form>
 
-                <nav aria-label="Pagination">
-                    <ul className="pagination justify-content-center mt-4">
+                <p className="pt-4 text-secondary" style={{ fontSize: "12px" }}>Doctors found : {filteredDoctors.length}</p>
+
+
+                <nav aria-label="Pagination" >
+                    <ul className="pagination justify-content-center mt-4" >
                         {/* Pulsante "Back" */}
-                        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`} >
                             <button
                                 className="page-link"
                                 onClick={() => handlePageChange(currentPage - 1)}
+                                style={{ fontSize: "12px" }}
                             >
                                 Back
                             </button>
@@ -188,6 +191,7 @@ export default function AdvancedResearch() {
                                 <button
                                     className="page-link bg-danger"
                                     onClick={() => handlePageChange(index + 1)}
+                                    style={{ fontSize: "12px" }}
                                 >
                                     {index + 1}
                                 </button>
@@ -199,6 +203,7 @@ export default function AdvancedResearch() {
                             <button
                                 className="page-link"
                                 onClick={() => handlePageChange(currentPage + 1)}
+                                style={{ fontSize: "12px" }}
                             >
                                 Next
                             </button>
