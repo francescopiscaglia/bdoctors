@@ -29,6 +29,10 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                 .then(res => res.json())
                 .then(response => {
                     setFormData(response);
+
+                    if (response) {
+                        alert('Review added successfully')
+                    }
                 })
                 .catch(err => console.error(err))
 
@@ -56,7 +60,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
                         {/* name */}
                         <div className="mb-3 col">
-                            <label htmlFor="name" className="form-label">Username*</label>
+                            <label htmlFor="name" className="form-label" style={{ fontSize: "14px" }}>Username*</label>
                             <input
                                 type="text"
                                 className="form-control"
@@ -64,6 +68,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                                 id="username"
                                 aria-describedby="helpId"
                                 placeholder="Insert your username"
+                                style={{ fontSize: "14px" }}
                                 required
                                 value={formData.username}
                                 onChange={handleFormField}
@@ -71,14 +76,16 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
                         </div>
 
+
                         <div>
                             <label htmlForfor="floatingSelect" className="mb-2">Rating*</label>
-                            <select className="form-select" aria-label="Floating label select example"
+                            <select className="form-select" aria-label="Floating label select example
                                 type="text"
                                 name="rating"
                                 id="rating"
                                 aria-describedby="helpId"
                                 placeholder="Between 0 to 5"
+                                style={{ fontSize: "14px" }}
                                 required
                                 value={formData.rating}
                                 onChange={handleFormField}
@@ -94,7 +101,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                         </div>
 
                         <div className="mb-3 col">
-                            <label htmlFor="review_text" className="form-label">Type your review</label>
+                            <label htmlFor="review_text" className="form-label" style={{ fontSize: "14px" }}>Type your review</label>
                             <input
                                 type="textarea"
                                 className="form-control"
@@ -103,6 +110,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                                 aria-describedby="helpId"
                                 placeholder="Review..."
                                 required
+                                style={{ fontSize: "14px" }}
                                 value={formData.review_text}
                                 onChange={handleFormField}
                             />
@@ -112,7 +120,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
                     </div>
 
-                    <button type="submit" className="btn submit d-block">Add review</button>
+                    <button type="submit" className="btn submit d-block" style={{ fontSize: "14px" }}>Save</button>
 
                     {error && <span className="text-danger mx-2">{error}</span>}
                 </form>
