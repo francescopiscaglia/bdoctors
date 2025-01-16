@@ -75,6 +75,7 @@ const DocCreate = async (req, res) => {
             .trim() // rimuove spazi multipli
 
         /* RICORDA: mancano le condizioni per rendere lo slug unico! O gli omonimi daranno errore nel db */
+        return slug;
     }
 
     // recuperare i dati dal body
