@@ -7,7 +7,7 @@ const upload = require("../utils/fileValidator.js");
 router.get("/", doctorsController.index);
 
 // show => ottengo tutte le recensioni di un medico tramite il suo id
-router.get("/:id", doctorsController.show);
+router.get("/:slug", doctorsController.show);
 
 // create => creo un nuovo medico
 router.post("/", upload.single("cv"), doctorsController.DocCreate);

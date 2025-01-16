@@ -14,7 +14,7 @@ function App() {
                     <Route element={<DefaultLayout />}>
                         <Route path='/' element={<Homepage />} />
                         <Route path='/add' element={<AddDoctor />}></Route>
-                        <Route path='/:id' element={<DoctorPage />} />
+                        <Route path='/:slug' element={<DoctorPage />} />
                         <Route path='/search' element={<AdvancedResearch />} />
                     </Route>
                 </Routes>
