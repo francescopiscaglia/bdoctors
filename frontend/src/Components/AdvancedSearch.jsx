@@ -214,7 +214,7 @@ export default function AdvancedResearch() {
                 </nav>
 
 
-                <DoctorCard doctors={filteredDoctors} />
+                <DoctorCard doctors={currentResults} />
             </div>
         </>
     );
