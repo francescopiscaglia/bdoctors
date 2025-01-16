@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DoctorCard from "./DoctorCard";
+import GlobalContext from "../context/GlobalContext";
 
 export default function DoctorList() {
   const [data, setData] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [filteredDoctors, setFilteredDoctors] = useState([]);
-  const [selectedDepartment, setSelectedDepartment] = useState("");
+  // const [selectedDepartment, setSelectedDepartment] = useState("");
   const navigate = useNavigate();
+  const { selectedDepartment, setSelectedDepartment } = useContext(GlobalContext);
 
 
   const fetchData = async () => {
