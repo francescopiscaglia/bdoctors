@@ -19,7 +19,7 @@ export default function AddDoctor() {
     const [departments, setDepartments] = useState([]);
     const [error, setError] = useState(null)
     const [selectedDepartment, setSelectedDepartment] = useState("");
-    const [success, setSuccess] = useState(null);
+    const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
 
     const apiUrl = 'http://localhost:3008';
@@ -61,16 +61,29 @@ export default function AddDoctor() {
                         return;
                     }
 
-                    if (response) {
-                        setSuccess(true)
-                        alert('Doctor added successfully')
+                    // Controlla se la risposta è andata a buon fine
+                    /*if (response) {
+                        alert('Doctor added successfully');
+                        navigate('/');
+                    } else if (!response) {
+                        alert('Ops! Something went wrong');
+                    }*/
+
+                    // Controlla se la risposta è andata a buon fine
+                    if (response.success) {
+                        setSuccess(true);
+                        alert('Doctor added successfully');
                         navigate('/');
                     } else {
-                        setSuccess(false)
-                        alert('Ops! something wrong happened')
+                        setSuccess(false);
+                        alert('Ops! Something went wrong');
                     }
+
                 })
-                .catch(err => console.error(err))
+                .catch(err =>
+                    console.error(err)
+
+                )
 
             setFormData(initialFormData)
         }
