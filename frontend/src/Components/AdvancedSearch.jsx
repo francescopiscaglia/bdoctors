@@ -106,7 +106,7 @@ export default function AdvancedResearch() {
 
                     {/* select */}
                     <div className="col-md-3">
-                        <label htmlFor="department" className="form-label">Department</label>
+                        <label htmlFor="department" className="form-label" style={{ fontSize: "14px" }}>Department</label>
                         <select
                             className="form-select"
                             id="department"
@@ -132,12 +132,13 @@ export default function AdvancedResearch() {
 
                     {/* name search bar */}
                     <div className="">
-                        <label htmlFor="exampleInputName" className="form-label">Name</label>
+                        <label htmlFor="exampleInputName" className="form-label" style={{ fontSize: "14px" }}>Name</label>
                         <input
                             type="text"
                             className="form-control"
                             id="exampleInputName"
                             aria-describedby="nameHelp"
+                            style={{ fontSize: "14px" }}
                             placeholder="Type doctor name"
                             value={searchName}
                             onChange={handleNameChange}
@@ -146,13 +147,14 @@ export default function AdvancedResearch() {
 
                     {/* lastname search bar */}
                     <div className="col">
-                        <label htmlFor="exampleInputName" className="form-label">Lastname</label>
+                        <label htmlFor="exampleInputName" className="form-label" style={{ fontSize: "14px" }}>Lastname</label>
                         <input
                             type="text"
                             className="form-control"
                             id="exampleInputLastName"
                             aria-describedby="LastNameHelp"
                             placeholder="Type doctor lastname"
+                            style={{ fontSize: "14px" }}
                             value={searchLastName}
                             onChange={handleLastNameChange}
                         />

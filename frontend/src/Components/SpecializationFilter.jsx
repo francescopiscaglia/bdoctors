@@ -51,18 +51,21 @@ export default function DoctorList() {
 
       {/* Tendina dei reparti */}
       <div className="row justify-content-center align-items-center mb-4">
-        <label htmlFor="department" className="form-label text-center">
+        <label htmlFor="department" className="form-label text-center" style={{ fontSize: "14px" }}>
           Search by Department:
         </label>
 
         <div className="col-auto">
           <select
             className="form-select"
-            style={{ minWidth: "200px" }}
+            style={{ minWidth: "200px", fontSize: "14px" }}
             id="department"
             onChange={handleDepartmentChange}
           >
-            <option value="">-- Select a Department --</option>
+            <option
+              value=""
+              className="text-secondary"
+            >-- All Department --</option>
             {departments.map((department, index) => (
               <option key={index} value={department}>
                 {department}
@@ -72,8 +75,8 @@ export default function DoctorList() {
         </div>
         <div className="col-auto">
           <button
-            className="btn btn-primary btn"
-            style={{ width: "200px" }}
+            className="btn navigate-adv-search"
+            style={{ width: "200px", fontSize: "14px" }}
             onClick={handleNavigateToAdvancedSearch}
             disabled={!selectedDepartment}
           >
