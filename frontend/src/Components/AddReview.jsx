@@ -78,7 +78,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
 
                         <div>
-                            <label htmlForfor="floatingSelect" className="mb-2">Rating*</label>
+                            <label htmlFor="floatingSelect" className="mb-2" style={{ fontSize: "14px" }}>Rating*</label>
                             <select className="form-select" aria-label="Floating label select example"
                                 type="text"
                                 name="rating"
@@ -91,11 +91,11 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                                 onChange={handleFormField}
                             >
                                 <option selected>-- No Rating --</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                                <option defaultValue="1">1</option>
+                                <option defaultValue="2">2</option>
+                                <option defaultValue="3">3</option>
+                                <option defaultValue="4">4</option>
+                                <option defaultValue="5">5</option>
                             </select>
 
                         </div>
