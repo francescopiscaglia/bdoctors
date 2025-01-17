@@ -9,7 +9,7 @@ export default function DoctorList() {
   const [departments, setDepartments] = useState([]);
   const [filteredDoctors, setFilteredDoctors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [resultsPerPage] = useState(5); // Ad esempio, 5 risultati per pagina
+  const [resultsPerPage] = useState(8); // Ad esempio, 5 risultati per pagina
   // const [selectedDepartment, setSelectedDepartment] = useState("");
   const navigate = useNavigate();
   const { selectedDepartment, setSelectedDepartment } = useContext(GlobalContext);
