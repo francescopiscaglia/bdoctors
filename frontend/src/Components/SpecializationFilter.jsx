@@ -8,9 +8,17 @@ export default function DoctorList() {
   const [data, setData] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [resultsPerPage] = useState(5); // Ad esempio, 5 risultati per pagina
   // const [selectedDepartment, setSelectedDepartment] = useState("");
   const navigate = useNavigate();
   const { selectedDepartment, setSelectedDepartment } = useContext(GlobalContext);
+
+  // Calcolo dei risultati visibili
+  const indexOfLastResult = currentPage * resultsPerPage;
+  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+  const currentResults = filteredDoctors.slice(indexOfFirstResult, indexOfLastResult);
+  const totalPages = Math.ceil(filteredDoctors.length / resultsPerPage);
 
 
   const fetchData = async () => {
@@ -47,6 +55,11 @@ export default function DoctorList() {
   const handleNavigateToAdvancedSearch = () => {
     navigate("search", { state: { department: selectedDepartment } });
   };
+
+  // pages
+  function handlePageChange(pageNumber) {
+    setCurrentPage(pageNumber);
+  }
 
   return (
     <div className="container mt-4">
@@ -93,8 +106,49 @@ export default function DoctorList() {
         Doctors found: {filteredDoctors.length}
       </p>
 
+
       {/* Lista dei medici */}
-      <DoctorCard doctors={filteredDoctors} />
+      <DoctorCard doctors={currentResults} />
+
+      <nav aria-label="Pagination" >
+        <ul className="pagination justify-content-center mt-4" >
+          {/* Pulsante "Back" */}
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`} >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(currentPage - 1)}
+              style={{ fontSize: "12px" }}
+            >
+              Back
+            </button>
+          </li>
+
+          {/* Numeri di pagina */}
+          {Array.from({ length: totalPages }, (_, index) => (
+            <li key={index + 1} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+              <button
+                className="page-link bg-danger"
+                onClick={() => handlePageChange(index + 1)}
+                style={{ fontSize: "12px" }}
+              >
+                {index + 1}
+              </button>
+            </li>
+          ))}
+
+          {/* Pulsante "Next" */}
+          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(currentPage + 1)}
+              style={{ fontSize: "12px" }}
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+
     </div>
   );
 }
