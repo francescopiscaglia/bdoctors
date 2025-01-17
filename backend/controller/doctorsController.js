@@ -143,6 +143,7 @@ const DocCreate = async (req, res) => {
         };
 
         res.status(201).json({
+            status: 201,
             message: "Doctor created successfully",
             doctor: newDoc
         });
