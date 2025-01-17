@@ -55,37 +55,33 @@ export default function AddDoctor() {
                 })
                 .then(response => {
                     console.log(response);
-                    setFormData(response)
+                    setFormData(response);
 
                     // Verifica se l'email esiste già nel database
                     if (formData.email.exists) {
                         setError('Email already exist');
                         return;
-                    }
-
+                    };
 
                     // Controlla se la risposta è andata a buon fine
                     if (response.status === 201) {
                         setSuccess(true);
-                        // alert('Doctor added successfully');
                         toast.success("The doctor has been registered successfully!");
                         setTimeout(() => navigate('/'), 3000);
                     } else {
                         setSuccess(false);
                         const errorMessage = response.error;
-                        // alert('Ops! Something went wrong');
                         toast.error(errorMessage);
-                    }
+                    };
 
                 })
                 .catch(err =>
                     console.error(err)
-                )
+                );
 
-            setFormData(initialFormData)
-        }
-
-    }
+            setFormData(initialFormData);
+        };
+    };
 
     useEffect(() => {
         fetch(`${apiUrl}/api/doctors`)
@@ -108,8 +104,8 @@ export default function AddDoctor() {
         setFormData((formData) => ({
             ...formData,
             [e.target.name]: e.target.value
-        }))
-    }
+        }));
+    };
 
     const handleDepartmentChange = (e) => {
         const department = e.target.value;
@@ -119,13 +115,12 @@ export default function AddDoctor() {
             ...formData,
             department: department
         }));
+
         setSelectedDepartment(department);
-
-
         setSelectedDepartment(department);
         setFormData({ ...formData, department });
-
     };
+
 
     return (
         <>
@@ -133,6 +128,7 @@ export default function AddDoctor() {
 
                 <h1 className="text-center">Are you a doctor? Fill out the form and register on our website.</h1>
 
+                {/* add doctor form */}
                 <form onSubmit={HandleFormSubmit} className="p-4">
 
                     {/* name */}
@@ -149,7 +145,6 @@ export default function AddDoctor() {
                             value={formData.name}
                             onChange={handleFormField}
                         />
-
                     </div>
 
                     {/* lastname */}
@@ -166,7 +161,6 @@ export default function AddDoctor() {
                             value={formData.last_name}
                             onChange={handleFormField}
                         />
-
                     </div>
 
                     {/* department */}
@@ -190,6 +184,7 @@ export default function AddDoctor() {
                         </select>
                     </div>}
 
+                    {/* email */}
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">Email*</label>
                         <input
@@ -205,9 +200,9 @@ export default function AddDoctor() {
                             value={formData.email}
                             onChange={handleFormField}
                         />
-
                     </div>
 
+                    {/* phone number */}
                     <div className="mb-3">
                         <label htmlFor="phone_number" className="form-label">Phone number*</label>
                         <input
@@ -222,9 +217,9 @@ export default function AddDoctor() {
                             value={formData.phone_number}
                             onChange={handleFormField}
                         />
-
                     </div>
 
+                    {/* address */}
                     <div className="mb-3">
                         <label htmlFor="address" className="form-label">Address*</label>
                         <input
@@ -238,9 +233,9 @@ export default function AddDoctor() {
                             value={formData.address}
                             onChange={handleFormField}
                         />
-
                     </div>
 
+                    {/* description */}
                     <div className="mb-3">
                         <label htmlFor="description" className="form-label">Description</label>
                         <input
@@ -253,9 +248,9 @@ export default function AddDoctor() {
                             value={formData.description}
                             onChange={handleFormField}
                         />
-
                     </div>
 
+                    {/* submit */}
                     <button type="submit" className="btn submit d-block m-auto">Add</button>
 
                     {error && <span className="text-danger mx-2">{error}</span>}
@@ -271,5 +266,5 @@ export default function AddDoctor() {
                     }} />
             </div>
         </>
-    )
-}
+    );
+};

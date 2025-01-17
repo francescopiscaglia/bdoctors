@@ -1,16 +1,16 @@
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import DoctorCard from "./DoctorCard";
 import GlobalContext from "../context/GlobalContext";
+import Inpagination from "./Inpagination";
 
 export default function DoctorList() {
   const [data, setData] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [filteredDoctors, setFilteredDoctors] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [resultsPerPage] = useState(8); // Ad esempio, 5 risultati per pagina
-  // const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [resultsPerPage] = useState(8);
   const navigate = useNavigate();
   const { selectedDepartment, setSelectedDepartment } = useContext(GlobalContext);
 
@@ -33,10 +33,10 @@ export default function DoctorList() {
       setData(sortedDoctors);
       setFilteredDoctors(sortedDoctors);
 
-
       const uniqueDepartments = [
         ...new Set(doctors.map((doctor) => doctor.department)),
       ];
+
       setDepartments(uniqueDepartments);
     } catch (error) {
       console.error("Error loading data:", error);
@@ -106,48 +106,11 @@ export default function DoctorList() {
         Doctors found: {filteredDoctors.length}
       </p>
 
-
       {/* Lista dei medici */}
       <DoctorCard doctors={currentResults} />
 
-      <nav aria-label="Pagination" >
-        <ul className="pagination justify-content-center mt-4" >
-          {/* Pulsante "Back" */}
-          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`} >
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(currentPage - 1)}
-              style={{ fontSize: "12px" }}
-            >
-              Back
-            </button>
-          </li>
-
-          {/* Numeri di pagina */}
-          {Array.from({ length: totalPages }, (_, index) => (
-            <li key={index + 1} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
-              <button
-                className="page-link bg-danger"
-                onClick={() => handlePageChange(index + 1)}
-                style={{ fontSize: "12px" }}
-              >
-                {index + 1}
-              </button>
-            </li>
-          ))}
-
-          {/* Pulsante "Next" */}
-          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(currentPage + 1)}
-              style={{ fontSize: "12px" }}
-            >
-              Next
-            </button>
-          </li>
-        </ul>
-      </nav>
+      {/* page navigation */}
+      <Inpagination currentPage={currentPage} handlePageChange={handlePageChange} totalPages={totalPages} />
 
     </div>
   );
