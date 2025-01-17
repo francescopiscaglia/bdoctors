@@ -65,7 +65,7 @@ const show = (req, res) => {
 const DocCreate = async (req, res) => {
 
     // funzione per generare slug
-    function generateSlug(name, last_name) {
+    async function generateSlug(name, last_name) {
         const fullName = `${name} ${last_name}`;
         const slug = fullName
             .toLowerCase()
@@ -74,8 +74,30 @@ const DocCreate = async (req, res) => {
             .replace(/-+/g, '-') // mette un "-" nel caso di multipli
             .trim() // rimuove spazi multipli
 
-        /* RICORDA: mancano le condizioni per rendere lo slug unico! O gli omonimi daranno errore nel db */
-        return slug;
+        // verifica che lo slug esista già
+        async function slugCheck(slug) {
+            const slugCheckSql = `SELECT COUNT(*) AS count FROM doctors WHERE slug= ?`;
+            const result = await new Promise((resolve, reject) => {
+                DBConnection.query(slugCheckSql, [slug], (err, result) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(result[0].count);
+                })
+            })
+            return result > 0;
+        }
+
+        // funzione math.random che appende 6 numeri in caso di omonimi
+        let uniqueSlug = slug;
+        let doubleSlug = await slugCheck(uniqueSlug);
+
+        while (doubleSlug) {
+            const random = Math.floor(100000 + Math.random() * 900000);
+            const uniqueSlug = `${slug}-${random}`;
+            doubleSlug = await slugCheck(uniqueSlug);
+        }
+        return uniqueSlug;
     }
 
     // recuperare i dati dal body
