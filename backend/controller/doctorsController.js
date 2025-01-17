@@ -65,39 +65,17 @@ const show = (req, res) => {
 const DocCreate = async (req, res) => {
 
     // funzione per generare slug
-    async function generateSlug(name, last_name) {
+    function generateSlug(name, last_name) {
         const fullName = `${name} ${last_name}`;
-        const slug = fullName
+        const random = Math.floor(100000 + Math.random() * 900000);
+        const partialSlug = fullName
             .toLowerCase()
             .replace(/[^a-z0-9 -]/g, '') // toglie caratteri speciali
             .replace(/|s+/g, '-') // mette "-" al posto degli spazi
             .replace(/-+/g, '-') // mette un "-" nel caso di multipli
             .trim() // rimuove spazi multipli
-
-        // verifica che lo slug esista già
-        async function slugCheck(slug) {
-            const slugCheckSql = `SELECT COUNT(*) AS count FROM doctors WHERE slug= ?`;
-            const result = await new Promise((resolve, reject) => {
-                DBConnection.query(slugCheckSql, [slug], (err, result) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve(result[0].count);
-                })
-            })
-            return result > 0;
-        }
-
-        // funzione math.random che appende 6 numeri in caso di omonimi
-        let uniqueSlug = slug;
-        let doubleSlug = await slugCheck(uniqueSlug);
-
-        while (doubleSlug) {
-            const random = Math.floor(100000 + Math.random() * 900000);
-            const uniqueSlug = `${slug}-${random}`;
-            doubleSlug = await slugCheck(uniqueSlug);
-        }
-        return uniqueSlug;
+        const slug = `${partialSlug}-${random}`;
+        return slug;
     }
 
     // recuperare i dati dal body
@@ -126,7 +104,7 @@ const DocCreate = async (req, res) => {
     if (!phoneValidator(phone_number)) return res.status(400).json({ error: "Invalid phone number format" });
 
     // generazione slug
-    const slug = await generateSlug(name, last_name);
+    const slug = generateSlug(name, last_name);
 
     // se la mail inserita esiste giá nel sistema
     const checkEmailSql = `SELECT * FROM doctors WHERE email = ?`;
