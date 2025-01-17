@@ -4,6 +4,7 @@ const emailValidator = require("../utils/emailValidator.js");
 const phoneValidator = require("../utils/phoneValidator.js");
 const nameValidator = require("../utils/nameValidator.js");
 const addressValidator = require("../utils/addressValidator.js");
+const sendEmail = require("../utils/sendEmail.js");
 
 // index
 const index = (req, res) => {
@@ -156,7 +157,7 @@ const DocCreate = async (req, res) => {
 const RevCreate = async (req, res) => {
 
     // recuperare i dati dal body
-    const { username, rating, review_text } = req.body;
+    const { username, rating, review_text, email } = req.body;
     const { slug } = req.params;
 
     const findDocSql = `SELECT * FROM doctors WHERE slug = ?`
@@ -178,14 +179,14 @@ const RevCreate = async (req, res) => {
     };
 
 
-    if (!username || !rating || !review_text) {
+    if (!username || !rating || !review_text || !email) {
         return res.status(404).json({ error: "Missing required fields" });
     };
 
+    const sql = `INSERT INTO reviews (doctor_id, username, rating, review_text, email) VALUES (?, ?, ?, ?, ?)`;
     // eseguire la query
-    const sql = `INSERT INTO reviews (doctor_id, username, rating, review_text) VALUES (?, ?, ?, ?)`;
 
-    DBConnection.query(sql, [doctor_id, username, rating, review_text], (err, result) => {
+    DBConnection.query(sql, [doctor_id, username, rating, review_text, email], (err, result) => {
         if (err) {
             console.log(err);
             return res.status(500).json({ error: "Error creating review" });
@@ -197,7 +198,8 @@ const RevCreate = async (req, res) => {
             doctor_id,
             username,
             rating,
-            review_text
+            review_text,
+            email
         };
 
         res.status(201).json({
