@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddDoctor() {
 
@@ -65,11 +67,14 @@ export default function AddDoctor() {
                     // Controlla se la risposta è andata a buon fine
                     if (response.status === 201) {
                         setSuccess(true);
-                        alert('Doctor added successfully');
-                        navigate('/');
+                        // alert('Doctor added successfully');
+                        toast.success("The doctor has been registered successfully!");
+                        setTimeout(() => navigate('/'), 2000);
                     } else {
                         setSuccess(false);
-                        alert('Ops! Something went wrong');
+                        const errorMessage = response.error;
+                        // alert('Ops! Something went wrong');
+                        toast.error(errorMessage);
                     }
 
                 })
@@ -255,6 +260,8 @@ export default function AddDoctor() {
 
                     {error && <span className="text-danger mx-2">{error}</span>}
                 </form>
+
+                <ToastContainer position="top-right" autoClose={3000} />
             </div>
         </>
     )

@@ -81,9 +81,10 @@ const DocCreate = async (req, res) => {
     // recuperare i dati dal body
     const { name, last_name, department, email, phone_number, address, description, } = req.body;
     const cv = req.file ? req.file.path : null;
+    const docDescription = description || null;
 
     // se uno dei campi é vuoto
-    if (!name || !last_name || !department || !email || !phone_number || !address || !description) {
+    if (!name || !last_name || !department || !email || !phone_number || !address) {
         return res.status(400).json({ error: "Please insert all information" });
     };
 
