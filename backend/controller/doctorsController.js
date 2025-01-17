@@ -156,6 +156,79 @@ const DocCreate = async (req, res) => {
 // create
 const RevCreate = async (req, res) => {
 
+    const { username, rating, review_text, email } = req.body;
+    const { slug } = req.params;
+
+    const findDocSql = `SELECT * FROM doctors WHERE slug = ?`;
+
+    try {
+
+        const findDoc = await new Promise((resolve, reject) => {
+            DBConnection.query(findDocSql, [slug], (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                return resolve(result[0]);
+            });
+        });
+
+        if (!findDoc) {
+            return res.status(404).json({ error: "Doctor not found" });
+        }
+
+        const doctorEmail = findDoc.email;
+        const doctor_id = findDoc.id;
+
+        if (!username || !rating || !review_text || !email) {
+            return res.status(400).json({ error: "Missing required fields" });
+        }
+
+        const sql = `INSERT INTO reviews (doctor_id, username, rating, review_text, email) VALUES (?, ?, ?, ?, ?)`;
+
+        await new Promise((resolve, reject) => {
+            DBConnection.query(sql, [doctor_id, username, rating, review_text, email], (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(result);
+            });
+        });
+
+        const newRev = {
+            doctor_id,
+            username,
+            rating,
+            review_text,
+            email
+        };
+
+
+        if (doctorEmail) {
+            try {
+                await sendEmail(doctorEmail, newRev);
+                console.log("Email sent");
+            } catch (error) {
+                console.error("Error sending email:", error);
+            }
+        } else {
+            console.log("Il dottore non ha un indirizzo email.");
+        }
+
+        res.status(201).json({
+            status: 201,
+            message: "Review created successfully",
+            doctor: newRev
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Error creating review" });
+    }
+};
+
+/* const RevCreate = async (req, res) => {
+
     // recuperare i dati dal body
     const { username, rating, review_text, email } = req.body;
     const { slug } = req.params;
@@ -172,11 +245,14 @@ const RevCreate = async (req, res) => {
         });
     });
 
-    const doctor_id = findDoc.id;
-
     if (findDoc.length <= 0) {
         return res.status(404).json({ error: "Doctor not found" });
     };
+
+    const doctorEmail = findDoc.email;
+    console.log(doctorEmail);
+    const doctor_id = findDoc.id;
+
 
 
     if (!username || !rating || !review_text || !email) {
@@ -202,13 +278,21 @@ const RevCreate = async (req, res) => {
             email
         };
 
+        // send email
+        try {
+            await sendEmail(doctorEmail, newRev);
+            console.log("Email sent");
+        } catch (error) {
+            console.error(error);
+        };
+
         res.status(201).json({
             status: 201,
             message: "Review created successfully",
             doctor: newRev
         });
     });
-};
+}; */
 
 
 module.exports = {
