@@ -126,7 +126,7 @@ const DocCreate = async (req, res) => {
     if (!phoneValidator(phone_number)) return res.status(400).json({ error: "Invalid phone number format" });
 
     // generazione slug
-    const slug = generateSlug(name, last_name);
+    const slug = await generateSlug(name, last_name);
 
     // se la mail inserita esiste giá nel sistema
     const checkEmailSql = `SELECT * FROM doctors WHERE email = ?`;
@@ -150,7 +150,7 @@ const DocCreate = async (req, res) => {
     DBConnection.query(sql, [name, last_name, department, email, phone_number, address, description, cv, slug], (err, result) => {
         if (err) {
             console.log(err);
-            return res.status(500).send("Error creating doctor");
+            return res.status(500).json({ error: "Error creating doctor" });
         };
 
         // creare un nuovo oggetto con i dati del nuovo dottore
