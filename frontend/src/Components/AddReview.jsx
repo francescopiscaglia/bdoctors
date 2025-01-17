@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -57,12 +57,9 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
         <>
             <div className="container border border-1 rounded py-4 my-5">
 
-
+                {/* add review form */}
                 <form onSubmit={HandleFormSubmit} className="p-2">
-
                     <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-
-
 
                         {/* name */}
                         <div className="mb-3 col">
@@ -79,10 +76,9 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                                 value={formData.username}
                                 onChange={handleFormField}
                             />
-
                         </div>
 
-
+                        {/* rating */}
                         <div>
                             <label htmlFor="floatingSelect" className="mb-2" style={{ fontSize: "14px" }}>Rating*</label>
                             <select className="form-select" aria-label="Floating label select example"
@@ -103,9 +99,9 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
-
                         </div>
 
+                        {/* review text */}
                         <div className="mb-3 col">
                             <label htmlFor="review_text" className="form-label" style={{ fontSize: "14px" }}>Type your review</label>
                             <input
@@ -120,12 +116,11 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                                 value={formData.review_text}
                                 onChange={handleFormField}
                             />
-
                         </div>
-
 
                     </div>
 
+                    {/* submit */}
                     <button type="submit" className="btn submit d-block" style={{ fontSize: "14px" }}>Save</button>
 
                     {error && <span className="text-danger mx-2">{error}</span>}
@@ -144,5 +139,5 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
             </div>
         </>
-    )
-}
+    );
+};
