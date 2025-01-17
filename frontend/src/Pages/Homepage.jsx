@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import SpecializationFilter from '../Components/SpecializationFilter'
 import Jumbotron from "../Components/jumbotron";
-import { Link } from "react-router-dom";
+
 
 
 export default function Homepage() {
@@ -12,7 +12,7 @@ export default function Homepage() {
             .then(data => {
                 setDoctors(data)
             })
-    }, [])
+    }, []);
 
 
 
@@ -20,8 +20,7 @@ export default function Homepage() {
         <>
             <Jumbotron />
 
-
             <SpecializationFilter />
         </>
     );
-}
+};

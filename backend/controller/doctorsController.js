@@ -147,7 +147,7 @@ const DocCreate = async (req, res) => {
     // eseguire la query
     const sql = `INSERT INTO doctors (name, last_name, department, email, phone_number, address, description, cv, slug) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    DBConnection.query(sql, [name, last_name, department, email, phone_number, address, description, cv, slug], (err, result) => {
+    DBConnection.query(sql, [name, last_name, department, email, phone_number, address, docDescription, cv, slug], (err, result) => {
         if (err) {
             console.log(err);
             return res.status(500).send("Error creating doctor");
