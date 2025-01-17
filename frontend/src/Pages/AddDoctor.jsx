@@ -61,16 +61,9 @@ export default function AddDoctor() {
                         return;
                     }
 
-                    // Controlla se la risposta è andata a buon fine
-                    /*if (response) {
-                        alert('Doctor added successfully');
-                        navigate('/');
-                    } else if (!response) {
-                        alert('Ops! Something went wrong');
-                    }*/
 
                     // Controlla se la risposta è andata a buon fine
-                    if (response.success) {
+                    if (response.status === 201) {
                         setSuccess(true);
                         alert('Doctor added successfully');
                         navigate('/');
@@ -82,7 +75,6 @@ export default function AddDoctor() {
                 })
                 .catch(err =>
                     console.error(err)
-
                 )
 
             setFormData(initialFormData)
