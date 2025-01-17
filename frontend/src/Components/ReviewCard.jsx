@@ -3,16 +3,16 @@ export default function ReviewCard({ review }) {
         <div className="col">
             <div className="card mb-3" style={{ height: "200px" }}>
                 <div className="card-body">
-                    <div className="card-head d-flex justify-content-between">
 
+                    {/* username */}
+                    <div className="card-head d-flex justify-content-between">
                         <h5 className="card-title">{review.username}</h5>
-                        {/* <button className="btn btn-outline-danger" data-index={review.id}>
-                        <i className="bi bi-trash"></i>
-                    </button> */}
                     </div>
 
+                    {/* rating */}
                     <div className="details mb-2">
                         <strong>Vote:</strong>
+
                         <span className="text-warning ms-2">
                             {
                                 Array.from({ length: review.rating }).map((_, index) => (
@@ -27,6 +27,8 @@ export default function ReviewCard({ review }) {
                             }
                         </span>
                     </div>
+
+                    {/* review text */}
                     <p className="card-text review-body">
                         {review.review_text}
                     </p>

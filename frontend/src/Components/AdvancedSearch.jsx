@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import DoctorCard from "./DoctorCard";
 import GlobalContext from "../context/GlobalContext";
+import Inpagination from "./Inpagination";
 
 export default function AdvancedResearch() {
     const location = useLocation();
@@ -16,7 +17,7 @@ export default function AdvancedResearch() {
     const [searchName, setSearchName] = useState("");
     const [searchLastName, setSearchLastName] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [resultsPerPage] = useState(5); // Ad esempio, 5 risultati per pagina
+    const [resultsPerPage] = useState(8);
     const { selectedDepartment, setSelectedDepartment } = useContext(GlobalContext);
 
 
@@ -130,7 +131,6 @@ export default function AdvancedResearch() {
                                 )
                             }
                         </select>
-
                     </div>
 
                     {/* name search bar */}
@@ -163,6 +163,7 @@ export default function AdvancedResearch() {
                         />
                     </div>
 
+                    {/* submit */}
                     <button
                         type="submit"
                         className="btn btn-sm ms-2 submit"
@@ -171,52 +172,14 @@ export default function AdvancedResearch() {
                         Find
                     </button>
 
-
                 </form>
 
                 <p className="pt-4 text-secondary" style={{ fontSize: "12px" }}>Doctors found : {filteredDoctors.length}</p>
 
+                {/* page navigation */}
+                <Inpagination currentPage={currentPage} handlePageChange={handlePageChange} totalPages={totalPages} />
 
-                <nav aria-label="Pagination" >
-                    <ul className="pagination justify-content-center mt-4" >
-                        {/* Pulsante "Back" */}
-                        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`} >
-                            <button
-                                className="page-link"
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                style={{ fontSize: "12px" }}
-                            >
-                                Back
-                            </button>
-                        </li>
-
-                        {/* Numeri di pagina */}
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <li key={index + 1} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
-                                <button
-                                    className="page-link bg-danger"
-                                    onClick={() => handlePageChange(index + 1)}
-                                    style={{ fontSize: "12px" }}
-                                >
-                                    {index + 1}
-                                </button>
-                            </li>
-                        ))}
-
-                        {/* Pulsante "Next" */}
-                        <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                            <button
-                                className="page-link"
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                style={{ fontSize: "12px" }}
-                            >
-                                Next
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-
-
+                {/* doctor */}
                 <DoctorCard doctors={currentResults} />
             </div>
         </>

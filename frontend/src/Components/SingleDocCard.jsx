@@ -3,9 +3,9 @@ export default function SingleDocCard({ doctorDetails, doctorReviews }) {
     // cv static link
     const cvUrl = `http://localhost:3008/uploads/DOCTOR.pdf`; // works with link hardcoded to the crash course file
 
-
     const votes = doctorReviews.map(doctor => doctor.rating);
 
+    // average
     let sum = 0;
     for (let i = 0; i < votes.length; i++) {
         sum += votes[i];
@@ -19,9 +19,13 @@ export default function SingleDocCard({ doctorDetails, doctorReviews }) {
             {/* doctor card */}
             <div className="card my-4" style={{ maxWidth: "" }}>
                 <div className="row g-0">
+
+                    {/* name */}
                     <div className="col-md-4">
                         <img src="/default-doct.jpg" className="img-fluid rounded-start" alt={doctorDetails.name} />
                     </div>
+
+                    {/* details */}
                     <div className="col-md-8">
                         <div className="card-body">
                             <div className="header mb-2">
@@ -29,6 +33,7 @@ export default function SingleDocCard({ doctorDetails, doctorReviews }) {
                                 <span className="badge mb-3">{doctorDetails.department}</span>
                             </div>
 
+                            {/* contacts */}
                             <div className="body">
                                 <h5 className="card-text mb-2">Contacts</h5>
                                 <p className="card-text mb-1"><span className="text-muted">Email: </span><i>{doctorDetails.email}</i></p>
