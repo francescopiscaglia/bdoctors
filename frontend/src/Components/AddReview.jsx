@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddReview({ formData, setFormData, initialFormData }) {
 
@@ -30,8 +32,12 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                 .then(response => {
                     setFormData(response);
 
-                    if (response) {
-                        alert('Review added successfully')
+                    // Controlla se la risposta è andata a buon fine
+                    if (response.status === 201) {
+                        toast.success("The review has been registered successfully!");
+                    } else {
+                        const errorMessage = response.error;
+                        toast.error(errorMessage);
                     }
                 })
                 .catch(err => console.error(err))
@@ -124,6 +130,18 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
                     {error && <span className="text-danger mx-2">{error}</span>}
                 </form>
+
+                {/* alert */}
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    toastStyle={{
+                        backgroundColor: "black",
+                        color: "white",
+                        fontSize: "14px"
+                    }}
+                />
+
             </div>
         </>
     )

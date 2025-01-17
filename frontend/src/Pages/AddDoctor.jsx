@@ -69,7 +69,7 @@ export default function AddDoctor() {
                         setSuccess(true);
                         // alert('Doctor added successfully');
                         toast.success("The doctor has been registered successfully!");
-                        setTimeout(() => navigate('/'), 2000);
+                        setTimeout(() => navigate('/'), 3000);
                     } else {
                         setSuccess(false);
                         const errorMessage = response.error;
@@ -261,7 +261,14 @@ export default function AddDoctor() {
                     {error && <span className="text-danger mx-2">{error}</span>}
                 </form>
 
-                <ToastContainer position="top-right" autoClose={3000} />
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    toastStyle={{
+                        backgroundColor: "black",
+                        color: "white",
+                        fontSize: "14px"
+                    }} />
             </div>
         </>
     )

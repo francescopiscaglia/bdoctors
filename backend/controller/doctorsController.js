@@ -174,12 +174,12 @@ const RevCreate = async (req, res) => {
     const doctor_id = findDoc.id;
 
     if (findDoc.length <= 0) {
-        return res.status(404).send("Doctor not found");
+        return res.status(404).json({ error: "Doctor not found" });
     };
 
 
     if (!username || !rating || !review_text) {
-        return res.status(400).send("Missing required fields");
+        return res.status(404).json({ error: "Missing required fields" });
     };
 
     // eseguire la query
@@ -188,7 +188,8 @@ const RevCreate = async (req, res) => {
     DBConnection.query(sql, [doctor_id, username, rating, review_text], (err, result) => {
         if (err) {
             console.log(err);
-            return res.status(500).send("Error creating review");
+            return res.status(500).json({ error: "Error creating review" });
+            ;
         };
 
         // creare un nuovo oggetto con i dati della nuova recensione
@@ -200,6 +201,7 @@ const RevCreate = async (req, res) => {
         };
 
         res.status(201).json({
+            status: 201,
             message: "Review created successfully",
             doctor: newRev
         });
