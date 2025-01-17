@@ -11,7 +11,6 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
     const [error, setError] = useState(null);
     const { slug } = useParams();
 
-
     function HandleFormSubmit(e) {
         e.preventDefault()
 
@@ -21,6 +20,8 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
             setError('Rating must be between 0 and 5');
         } else if (!formData.review_text) {
             setError('Review required');
+        } else if (formData.email.length > 254) {
+            setError('Email not valid');
         } else {
 
             fetch(`${apiUrl}/api/doctors/review/${slug}`, {
@@ -101,11 +102,33 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                             </select>
                         </div>
 
+                        {/* email */}
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label" style={{ fontSize: "14px" }}>Email*</label>
+                            <input
+                                type="text"
+                                pattern="[A-z0-9\.\+-]+@[A-z0-9\.-]+\.[A-z]{2,6}"
+                                title="Like abc123@gmail.com"
+                                className="form-control"
+                                name="email"
+                                id="email"
+                                aria-describedby="helpId"
+                                placeholder="Insert your email"
+                                required
+                                style={{ fontSize: "14px" }}
+                                value={formData.email}
+                                onChange={handleFormField}
+                            />
+                        </div>
+
+                    </div>
+
+                    <div className="row row-cols-1">
                         {/* review text */}
                         <div className="mb-3 col">
                             <label htmlFor="review_text" className="form-label" style={{ fontSize: "14px" }}>Type your review</label>
-                            <input
-                                type="textarea"
+                            <textarea
+                                rows="5"
                                 className="form-control"
                                 name="review_text"
                                 id="review_text"
@@ -117,7 +140,6 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
                                 onChange={handleFormField}
                             />
                         </div>
-
                     </div>
 
                     {/* submit */}

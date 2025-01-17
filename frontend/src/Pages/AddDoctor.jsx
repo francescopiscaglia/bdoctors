@@ -117,7 +117,6 @@ export default function AddDoctor() {
         }));
 
         setSelectedDepartment(department);
-        setSelectedDepartment(department);
         setFormData({ ...formData, department });
     };
 
