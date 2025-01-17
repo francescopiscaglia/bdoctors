@@ -9,7 +9,8 @@ export default function DoctorPage() {
     const initialFormData = {
         username: '',
         rating: '',
-        review_text: ""
+        review_text: '',
+        email: ''
     };
 
     const [doctorDetails, setDoctorDetails] = useState(null); // variables for doctor's details
