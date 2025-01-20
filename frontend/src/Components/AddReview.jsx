@@ -35,7 +35,7 @@ export default function AddReview({ formData, setFormData, initialFormData }) {
 
                     // Controlla se la risposta è andata a buon fine
                     if (response.status === 201) {
-                        toast.success("The review has been registered successfully!");
+                        toast.success("The review has been registered successfully! Check your email");
                     } else {
                         const errorMessage = response.error;
                         toast.error(errorMessage);
