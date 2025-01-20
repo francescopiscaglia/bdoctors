@@ -206,8 +206,12 @@ const RevCreate = async (req, res) => {
 
         if (doctorEmail) {
             try {
-                await sendEmail(doctorEmail, newRev);
-                console.log("Email sent");
+                await sendEmail.DoctorSendEmail(doctorEmail, newRev);
+                console.log("Email sent to doctor");
+
+                await sendEmail.UserSendEmail(email);
+                console.log("Email sent to user");
+
             } catch (error) {
                 console.error("Error sending email:", error);
             }
